@@ -1,4 +1,4 @@
 #！/bin/bash
 
-make EDITION=community release
+make -j`nproc` EDITION=community debug
 

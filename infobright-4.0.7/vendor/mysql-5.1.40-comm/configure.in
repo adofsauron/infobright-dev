@@ -311,7 +311,7 @@ PTHREAD_LIBS="-lboost_thread -lpthread "
 ###C_EXTRA_FLAGS="$C_EXTRA_FLAGS $PTHREAD_CFLAGS $ARCHFLAGS -fexceptions -fPIC -ftls-model=global-dynamic -fno-strict-aliasing -ffloat-store "
 C_EXTRA_FLAGS="$C_EXTRA_FLAGS $PTHREAD_CFLAGS $ARCHFLAGS -fno-strict-aliasing -fno-merge-constants -fno-gcse  "
 CFLAGS="$CFLAGS $C_EXTRA_FLAGS "
-CXXFLAGS="$CXXFLAGS $C_EXTRA_FLAGS -std=c++11 -Wno-deprecated -Wno-narrowing -Wno-register"
+CXXFLAGS="$CXXFLAGS $C_EXTRA_FLAGS -std=c++11 -Wno-deprecated -Wno-narrowing -Wno-register -Wno-return-type"
 LDLIBS="$LDLIBS $PTHREAD_LIBS "
 CXXLDLIBS="$CXXLDLIBS $PTHREAD_LIBS "
 
