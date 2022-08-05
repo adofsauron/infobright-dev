@@ -49,8 +49,8 @@ typedef int *uncmp_mem_release_eval_func (short, short, short);
 
 #define __STR2__(x) #x
 #define __STR1__(x) __STR2__(x)
-#define __LOC__ __FILE__ "("__STR1__(__LINE__)") : Info: "
-#define __LOC2__ __FILE__ "("__STR1__(__LINE__)") : "
+#define __LOC__ __FILE__ __LINE__ " : Info: "
+#define __LOC2__ __FILE__ __LINE__
 
 #endif
 
