@@ -254,9 +254,9 @@ fi
 PTHREAD_CFLAGS="-D_THREAD_SAFE -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS "
 PTHREAD_LIBS="-lboost_thread -lpthread "
 ###C_EXTRA_FLAGS="$C_EXTRA_FLAGS $PTHREAD_CFLAGS $ARCHFLAGS -fPIC -fexceptions -ftls-model=global-dynamic -fno-strict-aliasing -ffloat-store "
-C_EXTRA_FLAGS="$C_EXTRA_FLAGS $PTHREAD_CFLAGS $ARCHFLAGS -fno-strict-aliasing -fno-merge-constants -fno-gcse "
+C_EXTRA_FLAGS="$C_EXTRA_FLAGS $PTHREAD_CFLAGS $ARCHFLAGS -fno-strict-aliasing -fno-merge-constants -fno-gcse -fno-permissive "
 CFLAGS="$CFLAGS $C_EXTRA_FLAGS "
-CXXFLAGS="$CXXFLAGS $C_EXTRA_FLAGS -Wno-deprecated "
+CXXFLAGS="$CXXFLAGS $C_EXTRA_FLAGS -Wno-deprecated -Wno-narrowing "
 if  test "x$issunos" != "x" ; then
      CXXFLAGS="$CXXFLAGS -DSOLARIS "
 fi

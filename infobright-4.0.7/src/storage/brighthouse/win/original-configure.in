@@ -517,7 +517,7 @@ AC_ARG_WITH(other-libc,
    # since gcc cannot now recognize that our headers are libc, we work around
    # by telling it to be permissive. Note that this option only works with
    # new versions of gcc (2.95.x and above)
-   CXXFLAGS="$CXXFLAGS -fpermissive -I$other_libc_include"
+   CXXFLAGS="$CXXFLAGS -fno-permissive -I$other_libc_include"
    if test -f "$other_libc_lib/libnss_files.a"
    then
      # libc has been compiled with --enable-static-nss

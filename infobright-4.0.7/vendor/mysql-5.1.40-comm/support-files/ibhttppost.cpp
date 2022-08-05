@@ -19,6 +19,7 @@
 #include <netinet/in_systm.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
+#include <unistd.h>
 #if !defined(alpha_linux_port)
 #include <netinet/tcp.h>
 #endif
@@ -78,7 +79,8 @@
 #define NDB_NONBLOCK O_NONBLOCK
 #define NDB_SOCKET_TYPE int
 #define NDB_INVALID_SOCKET -1
-#define _NDB_CLOSE_SOCKET(x) ::close(x)
+// #define _NDB_CLOSE_SOCKET(x) ::close(x)
+#define _NDB_CLOSE_SOCKET(x)
 
 #define InetErrno errno
 
