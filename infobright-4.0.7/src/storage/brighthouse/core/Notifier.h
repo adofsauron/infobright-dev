@@ -21,12 +21,19 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 
 class Notifier
 {
-public:
-	enum Events {E_Loader, E_MyLoader, E_Query, E_Insert};
-	Notifier(Events event, ConnectionInfo* conn);
-	~Notifier();
-private:
-	Events e;
-	bool was_throttled;
+ public:
+  enum Events
+  {
+    E_Loader,
+    E_MyLoader,
+    E_Query,
+    E_Insert
+  };
+  Notifier(Events event, ConnectionInfo *conn);
+  ~Notifier();
+
+ private:
+  Events e;
+  bool was_throttled;
 };
 #endif /* NOTIFIER_H_ */

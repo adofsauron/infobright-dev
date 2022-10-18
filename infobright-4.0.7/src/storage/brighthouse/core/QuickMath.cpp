@@ -20,30 +20,28 @@ const double QuickMath::logof2 = log(2.0);
 double QuickMath::tab_nlog2n[QuickMath::MAX_NLOG2N + 1];
 double QuickMath::tab_log2[QuickMath::MAX_LOG2 + 1];
 double QuickMath::tab_pow10f[QuickMath::MAX_POW10 + 1];
-_int64  QuickMath::tab_pow10i[QuickMath::MAX_POW10 + 1];
+_int64 QuickMath::tab_pow10i[QuickMath::MAX_POW10 + 1];
 
-void QuickMath::Init() {
-	tab_nlog2n[0] = tab_log2[0] = 0.0;
-	for(uint n = 1; n <= MAX_LOG2; n++)
-		tab_log2[n] = log2((double)n);
-	for(uint n = 1; n <= MAX_NLOG2N; n++)
-		tab_nlog2n[n] = n * log2(n);
+void QuickMath::Init()
+{
+  tab_nlog2n[0] = tab_log2[0] = 0.0;
+  for (uint n = 1; n <= MAX_LOG2; n++) tab_log2[n] = log2((double)n);
+  for (uint n = 1; n <= MAX_NLOG2N; n++) tab_nlog2n[n] = n * log2(n);
 
-	tab_pow10f[0] = 1.0;
-	tab_pow10i[0] = 1;
-	for(uint n = 1; n <= MAX_POW10; n++)  {
-		tab_pow10i[n] = tab_pow10i[n-1] * 10;
-		tab_pow10f[n] = (double)tab_pow10i[n];
-	}
+  tab_pow10f[0] = 1.0;
+  tab_pow10i[0] = 1;
+  for (uint n = 1; n <= MAX_POW10; n++)
+  {
+    tab_pow10i[n] = tab_pow10i[n - 1] * 10;
+    tab_pow10f[n] = (double)tab_pow10i[n];
+  }
 }
 
 uint QuickMath::precision10(_uint64 n)
 {
-	uint e = 0;
-	while( (e <= MAX_POW10) && (n >= _uint64(tab_pow10i[e])) )
-		e++;
-	return e;
+  uint e = 0;
+  while ((e <= MAX_POW10) && (n >= _uint64(tab_pow10i[e]))) e++;
+  return e;
 }
 
-QuickMath ___math___(1);	// force initialization of static members
-
+QuickMath ___math___(1);  // force initialization of static members

@@ -21,40 +21,38 @@ using namespace std;
 
 PhysicalColumn::~PhysicalColumn()
 {
-	if (name)
-		delete [] name;
-	if (desc)
-		delete [] desc;
+  if (name)
+    delete[] name;
+  if (desc)
+    delete[] desc;
 }
 
 void PhysicalColumn::SetName(const char *a_name)
 {
-	if (name)
-		delete [] name;
+  if (name)
+    delete[] name;
 
-	if(a_name == NULL)
-		name = NULL;
-	else {
-		size_t const name_ct = strlen(a_name) + 1;
-		name = new char [name_ct];
-		strcpy(name, a_name);
-	}
+  if (a_name == NULL)
+    name = NULL;
+  else
+  {
+    size_t const name_ct = strlen(a_name) + 1;
+    name = new char[name_ct];
+    strcpy(name, a_name);
+  }
 }
-
 
 void PhysicalColumn::SetDescription(const char *a_desc)
 {
-	if (desc)
-		delete [] desc;
+  if (desc)
+    delete[] desc;
 
-	if(a_desc == NULL)
-		desc = NULL;
-	else {
-		size_t const desc_ct = strlen(a_desc) + 1;
-		desc = new char [desc_ct];
-		strcpy(desc, a_desc);
-	}
+  if (a_desc == NULL)
+    desc = NULL;
+  else
+  {
+    size_t const desc_ct = strlen(a_desc) + 1;
+    desc = new char[desc_ct];
+    strcpy(desc, a_desc);
+  }
 }
-
-
-

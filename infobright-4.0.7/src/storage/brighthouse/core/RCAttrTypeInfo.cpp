@@ -23,20 +23,20 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 
 ushort AttributeTypeInfo::ObjPrefixSizeByteSize(AttributeType attr_type, EDF edf)
 {
-	return DataFormat::GetDataFormat(edf)->ObjPrefixSizeByteSize(attr_type);
+  return DataFormat::GetDataFormat(edf)->ObjPrefixSizeByteSize(attr_type);
 }
 
 int AttributeTypeInfo::TextSize(AttributeType attrt, ushort precision, ushort scale, DTCollation collation)
 {
-	return TxtDataFormat::StaticExtrnalSize(attrt, precision, scale, &collation);
+  return TxtDataFormat::StaticExtrnalSize(attrt, precision, scale, &collation);
 }
 
-const RCDataType& AttributeTypeInfo::ValuePrototype() const
+const RCDataType &AttributeTypeInfo::ValuePrototype() const
 {
-	if(Lookup() || IsNumericType(attrt))
-		return RCNum::NullValue();
-	if(ATI::IsStringType(attrt))
-		return RCBString::NullValue();
-	BHASSERT_WITH_NO_PERFORMANCE_IMPACT(ATI::IsDateTimeType(attrt));
-	return RCDateTime::NullValue();
+  if (Lookup() || IsNumericType(attrt))
+    return RCNum::NullValue();
+  if (ATI::IsStringType(attrt))
+    return RCBString::NullValue();
+  BHASSERT_WITH_NO_PERFORMANCE_IMPACT(ATI::IsDateTimeType(attrt));
+  return RCDateTime::NullValue();
 }

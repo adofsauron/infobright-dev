@@ -20,43 +20,42 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 #include <string>
 
 /**
-	The base object representation of a Query Operator.
+        The base object representation of a Query Operator.
 
- 	Further use will require the further definition of this base
-	class' functionality and pure virtual member interfaces but as
-	a basic example of this stub's intended use:
+        Further use will require the further definition of this base
+        class' functionality and pure virtual member interfaces but as
+        a basic example of this stub's intended use:
 
-		class NotEqualQueryOperator : public QueryOperator
- 		{
-			public:
-				NotEqualQueryOperator():QueryOperator(O_NOT_EQ, "<>") {}
-		}
+                class NotEqualQueryOperator : public QueryOperator
+                {
+                        public:
+                                NotEqualQueryOperator():QueryOperator(O_NOT_EQ, "<>") {}
+                }
 
  */
 
 class QueryOperator
 {
-	public:
-		/// Instantiates the query operator object representation.
-		/// \param Fetch the Operator enumeration type this object represents.
-		/// \param Fetch the string representation of this query operator.
-		QueryOperator(Operator t, const std::string& sr) : type(t), string_rep(sr) {}
+ public:
+  /// Instantiates the query operator object representation.
+  /// \param Fetch the Operator enumeration type this object represents.
+  /// \param Fetch the string representation of this query operator.
+  QueryOperator(Operator t, const std::string &sr) : type(t), string_rep(sr) {}
 
-		/// Fetch the Operator enumeration type this object represents.
-		Operator GetType() const { return type; }
+  /// Fetch the Operator enumeration type this object represents.
+  Operator GetType() const { return type; }
 
-		/// Fetch the string representation of this query operator.
-		std::string AsString() const { return string_rep; }
+  /// Fetch the string representation of this query operator.
+  std::string AsString() const { return string_rep; }
 
-	protected:
-		/// The Operator enumeration type this object represents.
-		Operator type;
+ protected:
+  /// The Operator enumeration type this object represents.
+  Operator type;
 
-		/// A string representation of the query operator.  This string
-		/// reflects what would have been enter in the originating SQL
-		/// statement.
-		std::string string_rep;
+  /// A string representation of the query operator.  This string
+  /// reflects what would have been enter in the originating SQL
+  /// statement.
+  std::string string_rep;
 };
 
-#endif // _QUERY_OPERATOR_H_
-
+#endif  // _QUERY_OPERATOR_H_

@@ -21,21 +21,14 @@ using namespace std;
 string DisplayError()
 {
 #ifdef _MSC_VER
-	LPVOID lpMsgBuf;
-	FormatMessageA(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
-		GetLastError(),
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-		(LPTSTR) &lpMsgBuf,
-		0,
-		NULL
-		);
-	string err((LPCSTR)lpMsgBuf);
-	LocalFree(lpMsgBuf);
+  LPVOID lpMsgBuf;
+  FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL,
+                 GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),  // Default language
+                 (LPTSTR)&lpMsgBuf, 0, NULL);
+  string err((LPCSTR)lpMsgBuf);
+  LocalFree(lpMsgBuf);
 #else
-	string err = strerror(errno);
+  string err = strerror(errno);
 #endif
-	return err;
+  return err;
 }
-

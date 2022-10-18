@@ -28,16 +28,15 @@ std::string DisplayError();
 
 class SystemInfo
 {
-public:
-//TODO: actually this function has never been used
+ public:
+// TODO: actually this function has never been used
 #ifdef _MSC_VER
-	static unsigned long NoPageFaults()
-	{
-		PROCESS_MEMORY_COUNTERS pmc;
-		GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc));
-		return pmc.PageFaultCount;
-	}
+  static unsigned long NoPageFaults()
+  {
+    PROCESS_MEMORY_COUNTERS pmc;
+    GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc));
+    return pmc.PageFaultCount;
+  }
 #endif
 };
 #endif /* not WINTOOLS_H_INCLUDED */
-

@@ -21,14 +21,14 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 
 class TransactionManager
 {
-	std::list<Transaction*> m_transactions;
-	IBMutex mutex;
+  std::list<Transaction *> m_transactions;
+  IBMutex mutex;
 
-public:
-	void AddTransaction(Transaction* trs);
-	void RemoveTransaction(Transaction* trs);
-	void LockLastPacks(const std::string& table_path);
-	void DropTable(const std::string& table_path);
+ public:
+  void AddTransaction(Transaction *trs);
+  void RemoveTransaction(Transaction *trs);
+  void LockLastPacks(const std::string &table_path);
+  void DropTable(const std::string &table_path);
 };
 
 extern TransactionManager trs_mngr;

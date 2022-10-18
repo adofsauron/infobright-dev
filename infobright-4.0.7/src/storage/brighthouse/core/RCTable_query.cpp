@@ -26,70 +26,75 @@ using namespace std;
 
 _int64 RCTableImpl::NoObj()
 {
-	for(int i=0;i<no_attr;i++) {
-		LoadAttribute(i);
-		if(a[i]) return (_int64)a[i]->NoObj();
-	}
-	return 0;
+  for (int i = 0; i < no_attr; i++)
+  {
+    LoadAttribute(i);
+    if (a[i])
+      return (_int64)a[i]->NoObj();
+  }
+  return 0;
 }
 
 _int64 RCTableImpl::NoNulls(int attr)
 {
-	assert(attr <= no_attr);
-	if(!a[attr])
-		LoadAttribute(attr);
-	return a[attr]->NoNulls();
+  assert(attr <= no_attr);
+  if (!a[attr])
+    LoadAttribute(attr);
+  return a[attr]->NoNulls();
 }
 
-void RCTableImpl::GetTable_S(RCBString& s, _int64 obj, int attr)
+void RCTableImpl::GetTable_S(RCBString &s, _int64 obj, int attr)
 {
-	assert(attr <= no_attr);
-	if(!a[attr])
-		LoadAttribute(attr);
-	assert((_int64)obj <= a[attr]->NoObj());
-	s = a[attr]->GetValueString(obj);
+  assert(attr <= no_attr);
+  if (!a[attr])
+    LoadAttribute(attr);
+  assert((_int64)obj <= a[attr]->NoObj());
+  s = a[attr]->GetValueString(obj);
 }
 
 void RCTableImpl::GetTable_B(_int64 obj, int attr, int &size, char *val_buf)
 {
-	assert(attr <= no_attr);
-	if(!a[attr]) LoadAttribute(attr);
-	assert((_int64)obj <= a[attr]->NoObj());
-	a[attr]->GetValueBin(obj, size, val_buf);
+  assert(attr <= no_attr);
+  if (!a[attr])
+    LoadAttribute(attr);
+  assert((_int64)obj <= a[attr]->NoObj());
+  a[attr]->GetValueBin(obj, size, val_buf);
 }
 
-_int64 RCTableImpl::GetTable64(_int64 obj,int attr)
+_int64 RCTableImpl::GetTable64(_int64 obj, int attr)
 {
-	assert(attr <= no_attr);
-	if(!a[attr]) LoadAttribute(attr);
-	assert((_int64)obj <= a[attr]->NoObj());
-	return a[attr]->GetValueInt64(obj);
+  assert(attr <= no_attr);
+  if (!a[attr])
+    LoadAttribute(attr);
+  assert((_int64)obj <= a[attr]->NoObj());
+  return a[attr]->GetValueInt64(obj);
 }
 
-bool RCTableImpl::IsNull(_int64 obj,int attr)
+bool RCTableImpl::IsNull(_int64 obj, int attr)
 {
-	assert(attr <= no_attr);
-	if(!a[attr]) LoadAttribute(attr);
-	assert((_int64)obj <= a[attr]->NoObj());
-	return ( a[attr]->IsNull(obj) ? true : false );
+  assert(attr <= no_attr);
+  if (!a[attr])
+    LoadAttribute(attr);
+  assert((_int64)obj <= a[attr]->NoObj());
+  return (a[attr]->IsNull(obj) ? true : false);
 }
 
-RCValueObject RCTableImpl::GetValue(_int64 obj,int attr, ConnectionInfo *conn)
+RCValueObject RCTableImpl::GetValue(_int64 obj, int attr, ConnectionInfo *conn)
 {
-	assert(attr <= no_attr);
-	if(!a[attr]) LoadAttribute(attr);
-	assert((_int64)obj <= a[attr]->NoObj());
-	return a[attr]->GetValue(obj, false);
+  assert(attr <= no_attr);
+  if (!a[attr])
+    LoadAttribute(attr);
+  assert((_int64)obj <= a[attr]->NoObj());
+  return a[attr]->GetValue(obj, false);
 }
 
 ushort RCTableImpl::MaxStringSize(int n_a, Filter *f)
 {
-	assert(n_a >= 0 && n_a <= no_attr);
-	if(NoObj() == 0)
-		return 1;
-	LoadAttribute(n_a);
-	if(a[n_a])
-		return a[n_a]->MaxStringSize(f);
-	return 1;
+  assert(n_a >= 0 && n_a <= no_attr);
+  if (NoObj() == 0)
+    return 1;
+  LoadAttribute(n_a);
+  if (a[n_a])
+    return a[n_a]->MaxStringSize(f);
+  return 1;
 }
-

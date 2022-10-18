@@ -21,33 +21,31 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 
 using namespace std;
 
-//template<typename T>
-//DataPackImpl<T>::DataPackImpl(const DPN& dpn)
+// template<typename T>
+// DataPackImpl<T>::DataPackImpl(const DPN& dpn)
 //	:	vec(dpn.GetNoObj())
 //{
-//}
+// }
 
-template<typename T>
-DataPackImpl<T>::DataPackImpl(const int size)
-	:	vec(size)
-{ // size null elements
+template <typename T>
+DataPackImpl<T>::DataPackImpl(const int size) : vec(size)
+{  // size null elements
 }
 
-template<typename T>
-DataPackImpl<T>::DataPackImpl(const int size, const T val)
-	:	vec(size)
+template <typename T>
+DataPackImpl<T>::DataPackImpl(const int size, const T val) : vec(size)
 {
-	vec.assign(size, val);
+  vec.assign(size, val);
 }
-template<typename T>
+template <typename T>
 DataPackImpl<T>::~DataPackImpl()
 {
 }
 
-template<typename T>
-RCDataType& DataPackImpl<T>::operator[](ushort id) const
+template <typename T>
+RCDataType &DataPackImpl<T>::operator[](ushort id) const
 {
-	return (T&)vec[id];
+  return (T &)vec[id];
 }
 
 template class DataPackImpl<RCBString>;

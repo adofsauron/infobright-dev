@@ -18,36 +18,38 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 
 TransactionManager trs_mngr;
 
-void TransactionManager::AddTransaction(Transaction* trs)
+void TransactionManager::AddTransaction(Transaction *trs)
 {
-	IBGuard mutex_guard(mutex);
-	m_transactions.push_back(trs);
+  IBGuard mutex_guard(mutex);
+  m_transactions.push_back(trs);
 }
 
-void TransactionManager::RemoveTransaction(Transaction* trs)
+void TransactionManager::RemoveTransaction(Transaction *trs)
 {
-	IBGuard mutex_guard(mutex);
-	m_transactions.remove(trs);
+  IBGuard mutex_guard(mutex);
+  m_transactions.remove(trs);
 }
 
 #ifndef __BH_COMMUNITY__
-void TransactionManager::LockLastPacks(const std::string& table_path)
+void TransactionManager::LockLastPacks(const std::string &table_path)
 {
-	Transaction* thisTrs = ConnectionInfoOnTLS.Get().GetTransaction();
-	IBGuard mutex_guard(mutex);
-	std::list<Transaction*>::iterator iter;
-	for(iter = m_transactions.begin(); iter != m_transactions.end(); ++iter) {
-		if (*iter!=thisTrs)
-			(*iter)->LockLastPacks(table_path);
-	}
+  Transaction *thisTrs = ConnectionInfoOnTLS.Get().GetTransaction();
+  IBGuard mutex_guard(mutex);
+  std::list<Transaction *>::iterator iter;
+  for (iter = m_transactions.begin(); iter != m_transactions.end(); ++iter)
+  {
+    if (*iter != thisTrs)
+      (*iter)->LockLastPacks(table_path);
+  }
 }
 #endif
 
-void TransactionManager::DropTable(const std::string& table_path)
+void TransactionManager::DropTable(const std::string &table_path)
 {
-	IBGuard mutex_guard(mutex);
-	std::list<Transaction*>::iterator iter;
-	for(iter = m_transactions.begin(); iter != m_transactions.end(); ++iter) {
-		(*iter)->DropTable(table_path);
-	}
+  IBGuard mutex_guard(mutex);
+  std::list<Transaction *>::iterator iter;
+  for (iter = m_transactions.begin(); iter != m_transactions.end(); ++iter)
+  {
+    (*iter)->DropTable(table_path);
+  }
 }
