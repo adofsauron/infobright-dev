@@ -649,8 +649,8 @@ RSValue RCAttr::RoughCheck(int pack1, int pack2, Descriptor &d)
                   {
                           if(RCBString((char*)(local_min+pack1),common_prefix)!=RCBString((char*)(sec->local_min+pack2),common_prefix))
                           {
-                                  return RS_NONE;						// common prefixes does not
-  match
+                                  return RS_NONE;						// common prefixes does
+  not match
                           }
                   }
                   if(pack1_prefix==pack2_prefix)			// else cmaps must be shifted, which is too

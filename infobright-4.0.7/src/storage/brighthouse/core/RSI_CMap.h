@@ -31,8 +31,8 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 //	if(h.NoObj()<current_no_obj) then only a part of it may be safely used, i.e.
 //		only between 0 and (h.NoObj()>>16 - 1) packs are up to date.
 //
-//	result = h.IsValue( value,value,pack,min_pack,max_pack);	// check if a value (or interval) is present in a
-//pack
+//	result = h.IsValue( value,value,pack,min_pack,max_pack);	// check if a value (or interval) is present in
+// a pack
 //
 // Updating:
 //

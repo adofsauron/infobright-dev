@@ -21,25 +21,26 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 
 #define TABLE_YET_UNSEEN_INVOLVED 2
 
-#define ASSERT_MYSQL_STRING(x) ( assert(!x.str[x.length] && "Verification that struct st_lex_string::str (== LEX_STRING::str) ends with '\0'" ) )
+#define ASSERT_MYSQL_STRING(x) \
+  (assert(!x.str[x.length] && "Verification that struct st_lex_string::str (== LEX_STRING::str) ends with '\0'"))
 
 #define EMPTY_TABLE_CONST_INDICATOR "%%TMP_TABLE%%"
 
+class ReturnMeToMySQLWithError
+{
+};
 
-class ReturnMeToMySQLWithError {};
+const char *TablePath(TABLE_LIST *tab);
+Item *UnRef(Item *item);
+int TableUnmysterify(TABLE_LIST *tab, const char *&database_name, const char *&table_name, const char *&table_alias,
+                     const char *&table_path);
+int OperationUnmysterify(Item *item, ColOperation &oper, bool &distinct, const int group_by_clause);
 
-const char * TablePath(TABLE_LIST * tab);
-Item * UnRef(Item * item);
-int TableUnmysterify(TABLE_LIST * tab, const char *& database_name, const char *& table_name, const char *& table_alias, const char *& table_path);
-int OperationUnmysterify(Item * item, ColOperation& oper, bool& distinct, const int group_by_clause);
+// bool Item2ConstTerm(Item * an_arg, CQTerm *term,ValueSet *v=0, bool negative = false);
 
-//bool Item2ConstTerm(Item * an_arg, CQTerm *term,ValueSet *v=0, bool negative = false);
+// AttributeType SelectType(Query &q, CompiledQuery * cq, CQTerm *term, int how_many);
 
-//AttributeType SelectType(Query &q, CompiledQuery * cq, CQTerm *term, int how_many);
-
-
-void PrintItemTree(Item* item, int indent = 0);
-void PrintItemTree(char const* info, Item* item);
+void PrintItemTree(Item *item, int indent = 0);
+void PrintItemTree(char const *info, Item *item);
 
 #endif
-

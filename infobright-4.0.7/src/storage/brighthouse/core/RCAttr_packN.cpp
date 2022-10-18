@@ -129,11 +129,12 @@ void AttrPackN::SetNull(int i)
 //	Save format:
 //
 //	<total_byte_size>		- uint, the size of the data on disk (bytes), including header and dictionaries
-//	<mode>					- uchar, see Compress method definition. Special values: 255 - nulls only,
-//254 - empty (0 objects) 	<no_obj>				- ushort-1, i.e. "0" means 1 object 	<no_nulls>
+//	<mode>					- uchar, see Compress method definition. Special values: 255 - nulls
+// only, 254 - empty (0 objects) 	<no_obj>				- ushort-1, i.e. "0" means 1 object
+// <no_nulls>
 //- ushort(undefined if nulls only)
-//	<max_val>				- T_uint64, the maximal number to be encoded. E.g. 0 - only nulls and one more
-//value.
+//	<max_val>				- T_uint64, the maximal number to be encoded. E.g. 0 - only nulls and
+//one more value.
 //	<...data...>			- depending on compression mode
 
 void AttrPackN::LoadData(IBStream *fcurfile)
@@ -473,9 +474,13 @@ void AttrPackN::StayCompressed()  // Remove full data (conserve memory) and stay
 //	Compression protocol < OLD! Encoding for version 2.12 SP2 and earlier >:
 //
 //  General notation remark:	<val> - 2-level value in flat version or Huffmann version (depending on mode)
-//								<jump> - flat 3-bit or Huffmann encoding of jump length (minimum:
-//1) 								<diff> - flat 3-bit or Huffmann encoding of difference: 0 -> set NULL, 1 -> diff=0, 2 -> diff=1, 3 -> diff=-1, ...
-//k -> diff=(k/2)*(-1)^(k%2) 								<rle> - number of repetitions, encoded on "rle_bits" bits; value 0 means 1 repetition etc.
+//								<jump> - flat 3-bit or Huffmann encoding of jump length
+//(minimum:
+// 1) 								<diff> - flat 3-bit or Huffmann encoding of difference: 0 -> set NULL,
+// 1
+// -> diff=0, 2 -> diff=1, 3 -> diff=-1, ...
+// k -> diff=(k/2)*(-1)^(k%2) 								<rle> - number of repetitions, encoded
+// on "rle_bits" bits; value 0 means 1 repetition etc.
 //  Compression modes:
 //		 mode%2		= 0 for flat value encoding and 1 for Huff. val. enc.
 //		(mode/2)%2	= 1 for RLE enabled, otherwise 0
@@ -493,16 +498,16 @@ void AttrPackN::StayCompressed()  // Remove full data (conserve memory) and stay
 //	<nulls>
 //	<rle_bits>					- uchar, RLE bit depth, 0 = no RLE compression
 //	1<val>						- new value of attr.
-//	0<rle>						- how many times we should repeat the last value; if rle_bits=0 then
-//bit 0 indicates one repetition.
+//	0<rle>						- how many times we should repeat the last value; if rle_bits=0
+// then bit 0 indicates one repetition.
 //
 //	[x0110 - RLE on, jump on, combined off]
 //	<nulls>
 //	<rle_bits>					- uchar, RLE bit depth, 0 = no RLE compression
 //	1<val>						- new value of attr.
 //	0<rle><jump>				- get a value from position (current-jump-1)
-//								  and repeat it (rle+1) times; if rle_bits=0 then this is just one
-//repetition.
+//								  and repeat it (rle+1) times; if rle_bits=0 then this is
+//just one repetition.
 //
 //	[x1000 - RLE off, jump off, combined on]
 //	<nulls>
@@ -514,14 +519,14 @@ void AttrPackN::StayCompressed()  // Remove full data (conserve memory) and stay
 //	<rle_bits>					- uchar, RLE bit depth, 0 = no RLE compression
 //	11<val>						- new value of attr.
 //	10<diff>					- get the last nonzero value and add the encoded difference
-//  01<rle>						- get the last nonzero value, add 1 and put here, creating an increasing sequence of
-//  (rle+1) numbers (e.g. last=7 and code "01<4>" produce sequence "8,9,10,11,12")
+//  01<rle>						- get the last nonzero value, add 1 and put here, creating an increasing
+//  sequence of (rle+1) numbers (e.g. last=7 and code "01<4>" produce sequence "8,9,10,11,12")
 //								  if rle_bits=0 then code "01" means the same as
 //"10<+1>"
-//  00<rle><diff>				- get the last nonzero value, add the encoded difference and repeat the result (rle+2)
-//  times
-//								  if rle_bits=0 then code "00<diff>" means two identical values
-//encoded by "diff"
+//  00<rle><diff>				- get the last nonzero value, add the encoded difference and repeat the
+//  result (rle+2) times
+//								  if rle_bits=0 then code "00<diff>" means two identical
+// values encoded by "diff"
 
 template <typename etype>
 void AttrPackN::RemoveNullsAndCompress(NumCompressor<etype> &nc, char *tmp_comp_buffer, uint &tmp_cb_len, _uint64 &maxv)

@@ -536,7 +536,7 @@ int DimensionGroupMaterialized::DGMaterializedIterator::GetNextPackrow(int dim, 
     return -1;
   _uint64 ahead_pos = 0;
   //	cout << "dim " << dim << ",  " << next_pack[dim] << " -> " << ahead1[dim] << "  " << ahead2[dim] << "  " <<
-  //ahead3[dim] << "    (" << ahead << ")" << endl;
+  // ahead3[dim] << "    (" << ahead << ")" << endl;
   if (ahead == 1)
     ahead_pos = t[dim]->Get64InsideBlock(next_pack[dim]);
   else if (ahead == 2 && ahead1[dim] != -1)

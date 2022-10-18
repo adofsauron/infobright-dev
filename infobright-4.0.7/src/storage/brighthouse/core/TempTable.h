@@ -435,8 +435,10 @@ class TempTable : public JustATable
   bool LimitMayBeAppliedToWhere();
   ColumnType GetUnionType(ColumnType type1, ColumnType type2);
   bool SubqueryInFrom();
-  // void 					ExtractColumnsFromTerm(CQTerm& term, bool& is_complex, DataType& type, std::map<VarID,
-  // ValueOrNull>& columns, 												MysqlExpression::SetOfVars& vars, MysqlExpression::TypOfVars& types);
+  // void 					ExtractColumnsFromTerm(CQTerm& term, bool& is_complex, DataType& type,
+  // std::map<VarID,
+  // ValueOrNull>& columns, 												MysqlExpression::SetOfVars&
+  // vars, MysqlExpression::TypOfVars& types);
  public:
   class RecordIterator;
   // virtual RecordIterator	find( ConnectionInfo *conn, _uint64 pos);

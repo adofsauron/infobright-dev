@@ -394,7 +394,7 @@ int RCEngine::Convert(int &is_null, Field *field, void *out_ptr, RCDataType &rci
 ////		}
 ////		case MYSQL_TYPE_STRING:
 ////			(rcitem->Value().Get())->ToRCString().PutString((char*&)out_ptr, (ushort)field->field_length,
-///false); /			break; /		case MYSQL_TYPE_BLOB: { /			RCBString str =
+/// false); /			break; /		case MYSQL_TYPE_BLOB: { /			RCBString str =
 ///(rcitem->Value()).ToRCString(); /			((Field_blob*)field)->set_ptr(str.len, (uchar*)str.val); /
 ///((Field_blob*)field)->copy(); /			break; /		} /		case MYSQL_TYPE_DECIMAL:
 ////		case MYSQL_TYPE_NEWDECIMAL: {
@@ -406,9 +406,9 @@ int RCEngine::Convert(int &is_null, Field *field, void *out_ptr, RCDataType &rci
 ////			decimal_round(&md, &md, ((Field_new_decimal*)field)->decimals(), HALF_UP);
 ////			decimal2bin(&md, (uchar*)out_ptr, ((Field_new_decimal*)field)->precision,
 ///((Field_new_decimal*)field)->decimals()); /			break; /		} /		default: /
-///done = false; /			break; /	} /	if(!done) { /
+/// done = false; /			break; /	} /	if(!done) { /
 /////if(!RCEngine::AreConvertible(rcitem, field)) { /		//	BHERROR("BH result type not convertible to MySQL
-///type"); /		//	return 0; /		//} /		is_null = 0; /		switch(rcitem->Type()) {
+/// type"); /		//	return 0; /		//} /		is_null = 0; /		switch(rcitem->Type()) {
 ////			case RC_BYTEINT:
 ////				switch(field->type()) {
 ////					case MYSQL_TYPE_LONGLONG:
@@ -474,7 +474,8 @@ int RCEngine::Convert(int &is_null, Field *field, void *out_ptr, RCDataType &rci
 ////					//	my_decimal md;
 ////					//	RCEngine::Convert(is_null, &md, rcitem);
 ////					//	if(!is_null)
-////					//		decimal2bin(&md, (uchar*)out_ptr, ((Field_new_decimal*)field)->precision,
+////					//		decimal2bin(&md, (uchar*)out_ptr,
+///((Field_new_decimal*)field)->precision,
 ///((Field_new_decimal*)field)->decimals()); /					//	break; /
 /////} /  				    default: {
 ////					    *(int *)out_ptr = *static_cast<const int *>(rcitem->Buf());
@@ -503,11 +504,12 @@ int RCEngine::Convert(int &is_null, Field *field, void *out_ptr, RCDataType &rci
 ////					//	my_decimal md;
 ////					//	RCEngine::Convert(is_null, &md, rcitem);
 ////					//	if(!is_null)
-////					//		decimal2bin(&md, (uchar*)out_ptr, ((Field_new_decimal*)field)->precision,
+////					//		decimal2bin(&md, (uchar*)out_ptr,
+///((Field_new_decimal*)field)->precision,
 ///((Field_new_decimal*)field)->decimals()); /					//	break; /
 /////} /					default: /
-///int3store(static_cast<char*>(out_ptr), *static_cast<const int*>(rcitem->Buf())); /
-///break; /				} /				break; /			case RC_BIGINT:
+/// int3store(static_cast<char*>(out_ptr), *static_cast<const int*>(rcitem->Buf())); /
+/// break; /				} /				break; /			case RC_BIGINT:
 ////				switch(field->type()) {
 ////					case MYSQL_TYPE_LONG:
 ////						*(int*)out_ptr = (int)*(_int64*)rcitem->Buf();
@@ -525,7 +527,8 @@ int RCEngine::Convert(int &is_null, Field *field, void *out_ptr, RCDataType &rci
 ////					//	my_decimal md;
 ////					//	RCEngine::Convert(is_null, &md, rcitem);
 ////					//	if(!is_null)
-////					//		decimal2bin(&md, (uchar*)out_ptr, ((Field_new_decimal*)field)->precision,
+////					//		decimal2bin(&md, (uchar*)out_ptr,
+///((Field_new_decimal*)field)->precision,
 ///((Field_new_decimal*)field)->decimals()); /					//	break; /
 /////} /					default:
 ////						*(_int64*)out_ptr = *(_int64*)rcitem->Buf();
@@ -538,8 +541,9 @@ int RCEngine::Convert(int &is_null, Field *field, void *out_ptr, RCDataType &rci
 ////					//	my_decimal md;
 ////					//	double2decimal(*(double*)rcitem->Buf(), &md);
 ////					//	decimal_round(&md, &md, ((Field_new_decimal*)field)->decimals(),
-///HALF_UP);
-////					//	decimal2bin(&md, (uchar*)out_ptr, ((Field_new_decimal*)field)->precision,
+/// HALF_UP);
+////					//	decimal2bin(&md, (uchar*)out_ptr,
+///((Field_new_decimal*)field)->precision,
 ///((Field_new_decimal*)field)->decimals()); /					//	break; /
 /////} /					case MYSQL_TYPE_FLOAT:
 ////						*(float*)out_ptr = (float)*(double*)rcitem->Buf();
@@ -612,17 +616,17 @@ int RCEngine::Convert(int &is_null, Field *field, void *out_ptr, RCDataType &rci
 ///(uchar)(((RCDataType*)rcitem->Value())->ToRCString().len);
 ////							//	strcpy(((char*)out_ptr + 1),
 ///((RCDataType*)rcitem->Value())->ToRCString()); /
-///str_val.PutVarchar((char*&)out_ptr, 1, false);
+/// str_val.PutVarchar((char*&)out_ptr, 1, false);
 ////						} else if(field->field_length <= ((1 << 16) - 1)) {
 ////							//	*(ushort*)out_ptr =
 ///(ushort)(((RCDataType*)rcitem->Value())->ToRCString().len);
 ////							//	strcpy(((char*)out_ptr + 2),
 ///((RCDataType*)rcitem->Value())->ToRCString()); /
-///str_val.PutVarchar((char*&)out_ptr, 2, false); /						} /
-///break; /					} /					case MYSQL_TYPE_STRING: /
+/// str_val.PutVarchar((char*&)out_ptr, 2, false); /						} /
+/// break; /					} /					case MYSQL_TYPE_STRING: /
 ///(rcitem->Value().Get())->ToRCString().PutString((char*&)out_ptr, (ushort)field->field_length, false); /
-///break; /					case MYSQL_TYPE_BLOB: { /
-///RCBString str = (rcitem->Value()).ToRCString();
+/// break; /					case MYSQL_TYPE_BLOB: { /
+/// RCBString str = (rcitem->Value()).ToRCString();
 ////						((Field_blob*)field)->set_ptr(str.len, (uchar*)str.val);
 ////						((Field_blob*)field)->copy();
 ////						break;
@@ -630,19 +634,19 @@ int RCEngine::Convert(int &is_null, Field *field, void *out_ptr, RCDataType &rci
 ////					case MYSQL_TYPE_DATE: {
 ////						char tmp[10];
 ////						char* tmpptr = tmp;
-////						(rcitem->Value().Get())->ToRCString().PutString(tmpptr, ushort(sizeof(tmp)),
-///false); /						((Field_date*)field)->store(tmp,sizeof(tmp),NULL); /
-///break; /					} /					case MYSQL_TYPE_TIME: { /
-///char tmp[10]; /						char* tmpptr = tmp; /
+////						(rcitem->Value().Get())->ToRCString().PutString(tmpptr,
+/// ushort(sizeof(tmp)), false); /
+/// ((Field_date*)field)->store(tmp,sizeof(tmp),NULL); / break; /					} /
+/// case MYSQL_TYPE_TIME: { / char tmp[10]; /						char* tmpptr = tmp; /
 ///(rcitem->Value().Get())->ToRCString().PutString(tmpptr, ushort(sizeof(tmp)), false); /
 ///((Field_time*)field)->store(tmp,sizeof(tmp),NULL); /						break; /
 ///} /					case MYSQL_TYPE_DATETIME: { /						char
-///tmp[19]; /						char* tmpptr = tmp; /
+/// tmp[19]; /						char* tmpptr = tmp; /
 ///(rcitem->Value().Get())->ToRCString().PutString(tmpptr, ushort(sizeof(tmp)), false); /
 ///((Field_datetime*)field)->store(tmp,sizeof(tmp),NULL); /						break; /
 ///} /					default: /
 ///(rcitem->Value().Get())->ToRCString().PutString((char*&)out_ptr, (ushort)field->field_length, false); /
-///break; /				}
+/// break; /				}
 ////
 ////				break;
 ////			case RC_YEAR: {
@@ -874,7 +878,7 @@ int RCEngine::Convert(int &is_null, Field *field, void *out_ptr, RCDataType &rci
 //						break;
 //					default:
 //						BHASSERT_WITH_NO_PERFORMANCE_IMPACT(!"No data types conversion
-//available!"); 						break;
+// available!"); 						break;
 //				}
 //				break;
 //			case RC_STRING:
@@ -891,10 +895,13 @@ int RCEngine::Convert(int &is_null, Field *field, void *out_ptr, RCDataType &rci
 //						break;
 //					}
 //					case MYSQL_TYPE_STRING:
-//						((RCBString&)rcitem).PutString((char*&)out_ptr, (ushort)field->field_length,
-//false); 						break; 					case MYSQL_TYPE_BLOB: { 						Field_blob *blob= (Field_blob*) field; 						if (blob_buf==NULL) {
+//						((RCBString&)rcitem).PutString((char*&)out_ptr,
+//(ushort)field->field_length,
+// false); 						break; 					case MYSQL_TYPE_BLOB: {
+// Field_blob *blob= (Field_blob*) field; 						if (blob_buf==NULL) {
 //							blob->set_ptr(((RCBString&)rcitem).len,
-//(uchar*)((RCBString&)rcitem).val); 							blob->copy(); 						} else { 							blob->store(((RCBString&)rcitem).val,
+//(uchar*)((RCBString&)rcitem).val); 							blob->copy();
+//} else { 							blob->store(((RCBString&)rcitem).val,
 //((RCBString&)rcitem).len, &my_charset_bin); 							uchar *src, *tgt;
 //
 //							uint packlength= blob->pack_length_no_ptr();
@@ -906,7 +913,7 @@ int RCEngine::Convert(int &is_null, Field *field, void *out_ptr, RCDataType &rci
 //								tgt= &((*blob_buf)[0]);
 //								bmove(tgt, src, length);
 //								memcpy_fixed(blob->ptr + packlength, &tgt,
-//sizeof(char*));
+// sizeof(char*));
 //							}
 //						}
 //						break;
@@ -933,8 +940,8 @@ int RCEngine::Convert(int &is_null, Field *field, void *out_ptr, RCDataType &rci
 //						break;
 //					}
 //					default:
-//						((RCBString&)rcitem).PutString((char*&)out_ptr, (ushort)field->field_length,
-//false); 						break;
+//						((RCBString&)rcitem).PutString((char*&)out_ptr,
+//(ushort)field->field_length, false); 						break;
 //				}
 //
 //				break;
@@ -1478,20 +1485,25 @@ bool RCEngine::AreConvertible(RCDataType &rcitem, enum_field_types my_type, uint
 //		case MYSQL_TYPE_INT24:
 //		case MYSQL_TYPE_LONG:
 //		case MYSQL_TYPE_LONGLONG:
-//			return ATI::IsIntegerType(rcitem->Type()) || ATI::IsRealType(rcitem->Type()) || (rcitem->Type() ==
-//RC_NUM && ((RCNum*)(rcitem->Value().Get()))->Scale() == 0); 		case MYSQL_TYPE_VARCHAR: 		case MYSQL_TYPE_VAR_STRING:
-//			return (rcitem->Type() == RC_STRING);
-//		case MYSQL_TYPE_NEWDECIMAL:
+//			return ATI::IsIntegerType(rcitem->Type()) || ATI::IsRealType(rcitem->Type()) || (rcitem->Type()
+//==
+// RC_NUM && ((RCNum*)(rcitem->Value().Get()))->Scale() == 0); 		case MYSQL_TYPE_VARCHAR: 		case
+// MYSQL_TYPE_VAR_STRING: 			return (rcitem->Type() == RC_STRING); 		case
+// MYSQL_TYPE_NEWDECIMAL:
 //			if(ATI::IsRealType(rcitem->Type()))
 //				return true;
 //			else
 //				return (rcitem->Type() == RC_INT || rcitem->Type() == RC_MEDIUMINT || rcitem->Type() ==
-//RC_BIGINT); 		case MYSQL_TYPE_STRING: 			return (ATI::IsDateTimeType(rcitem->Type()) || rcitem->Type() == RC_STRING); 		case
-//MYSQL_TYPE_BLOB: 			return (rcitem->Type() == RC_STRING || rcitem->Type() == RC_NUM); 		case MYSQL_TYPE_FLOAT: 		case
-//MYSQL_TYPE_DOUBLE: 			return rcitem->Type() == RC_FLOAT || rcitem->Type() == RC_REAL; 		case MYSQL_TYPE_DATETIME: 		case
-//MYSQL_TYPE_TIMESTAMP: 			return (rcitem->Type() == RC_TIMESTAMP) || (rcitem->Type() == RC_DATETIME) || (rcitem->Type() ==
-//RC_STRING); 		case MYSQL_TYPE_DATE: 			return (rcitem->Type() == RC_DATE)|| (rcitem->Type() == RC_STRING); 		case
-//MYSQL_TYPE_TIME: 			return (rcitem->Type() == RC_TIME)|| (rcitem->Type() == RC_STRING); 		default: 			return false;
+// RC_BIGINT); 		case MYSQL_TYPE_STRING: 			return (ATI::IsDateTimeType(rcitem->Type()) ||
+// rcitem->Type() == RC_STRING); 		case
+// MYSQL_TYPE_BLOB: 			return (rcitem->Type() == RC_STRING || rcitem->Type() == RC_NUM);
+// case MYSQL_TYPE_FLOAT: 		case
+// MYSQL_TYPE_DOUBLE: 			return rcitem->Type() == RC_FLOAT || rcitem->Type() == RC_REAL;
+// case MYSQL_TYPE_DATETIME: 		case
+// MYSQL_TYPE_TIMESTAMP: 			return (rcitem->Type() == RC_TIMESTAMP) || (rcitem->Type() == RC_DATETIME)
+// || (rcitem->Type() == RC_STRING); 		case MYSQL_TYPE_DATE: 			return (rcitem->Type() ==
+// RC_DATE)|| (rcitem->Type() == RC_STRING); 		case MYSQL_TYPE_TIME: 			return (rcitem->Type()
+// == RC_TIME)|| (rcitem->Type() == RC_STRING); 		default: 			return false;
 //	}
 //>>>>>>> .merge-right.r15071
 //	return false;
@@ -1513,10 +1525,12 @@ bool RCEngine::AreConvertible(RCDataType &rcitem, enum_field_types my_type, uint
 //	switch(my_type) {
 //		case MYSQL_TYPE_LONGLONG:
 //			if(bhtype == RC_INT || bhtype == RC_MEDIUMINT || bhtype == RC_BIGINT || (bhtype == RC_NUM &&
-//dynamic_cast<RCNum&>(rcitem).Scale() == 0)) 				return true; 			break; 		case MYSQL_TYPE_NEWDECIMAL: 			if(bhtype == RC_FLOAT ||
-//bhtype == RC_REAL || ATI::IsIntegerType(bhtype) || bhtype == RC_NUM) 				return true; 			break; 		case MYSQL_TYPE_BLOB: 		case
-//MYSQL_TYPE_TINY_BLOB: 		case MYSQL_TYPE_MEDIUM_BLOB: 		case MYSQL_TYPE_LONG_BLOB: 			return (bhtype == RC_STRING || bhtype ==
-//RC_VARCHAR || bhtype == RC_BYTE || bhtype == RC_VARBYTE || bhtype
+// dynamic_cast<RCNum&>(rcitem).Scale() == 0)) 				return true; 			break;
+// case MYSQL_TYPE_NEWDECIMAL: 			if(bhtype == RC_FLOAT || bhtype == RC_REAL || ATI::IsIntegerType(bhtype)
+// || bhtype == RC_NUM) 				return true; 			break; 		case
+// MYSQL_TYPE_BLOB: case MYSQL_TYPE_TINY_BLOB: 		case MYSQL_TYPE_MEDIUM_BLOB: 		case
+// MYSQL_TYPE_LONG_BLOB: return (bhtype == RC_STRING || bhtype == RC_VARCHAR || bhtype == RC_BYTE || bhtype ==
+// RC_VARBYTE || bhtype
 //					== RC_BIN);
 //		case MYSQL_TYPE_YEAR:
 //			return bhtype == RC_YEAR;

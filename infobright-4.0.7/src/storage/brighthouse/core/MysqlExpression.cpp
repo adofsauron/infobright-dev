@@ -585,7 +585,7 @@ MysqlExpression::StringType MysqlExpression::GetStringType()
 //					v++;
 //				if(v < 0 && item->unsigned_flag)
 //					throw NotImplementedRCException("Out of range: unsigned data type is not
-//supported."); 				val.SetFixed(v); 				break;
+// supported."); 				val.SetFixed(v); 				break;
 //			}
 //
 //		case REAL_RESULT:
@@ -614,9 +614,10 @@ MysqlExpression::StringType MysqlExpression::GetStringType()
 //
 //					if(type.maxstrlen >= 0 && len > uint(type.maxstrlen)) {
 //						//fprintf(stderr, "WARNING: maxstrlen=%d of string result of complex
-//expression"
-//						//		" is incorrect. Result with length %d occurred\n", type.maxstrlen,
-//len); 						len = type.maxstrlen; 						p[len] = 0;
+// expression"
+//						//		" is incorrect. Result with length %d occurred\n",
+// type.maxstrlen, len); 						len = type.maxstrlen;
+// p[len] = 0;
 //					}
 //
 //

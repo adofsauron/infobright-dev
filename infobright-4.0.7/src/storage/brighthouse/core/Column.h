@@ -26,36 +26,46 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 
 class ConnectionInfo;
 
-enum PackOntologicalStatus	{ NULLS_ONLY, UNIFORM, UNIFORM_AND_NULLS, SEQUENTIAL, NORMAL };
+enum PackOntologicalStatus
+{
+  NULLS_ONLY,
+  UNIFORM,
+  UNIFORM_AND_NULLS,
+  SEQUENTIAL,
+  NORMAL
+};
 
 /*! \brief Base class for columns.
  *
  * Defines the common interface for RCAttr, Attr and VirtualColumn
  */
-class Column {
-public:
+class Column
+{
+ public:
+  Column(ColumnType ct = ColumnType()) : ct(ct) {}
 
-	Column(ColumnType ct = ColumnType()) :
-		ct(ct) {}
+  Column(const Column &c)
+  {
+    if (this != &c)
+      *this = c;
+  }
 
-	Column(const Column& c) { if(this != &c) *this = c; }
+  /*! \brief Get the full type of the column
+   *
+   */
+  inline const ColumnType &Type() const { return ct; }
 
+  inline void CoerceType(const ColumnType &new_type) { ct = new_type; }
 
-	/*! \brief Get the full type of the column
-	 *
-	 */
-	inline const ColumnType& Type() const { return ct; }
+  /*! \brief Get simple type of the column
+   *
+   */
+  inline const AttributeType TypeName() const { return ct.GetTypeName(); }
 
-	inline void CoerceType(const ColumnType& new_type) { ct = new_type; }
+  void SetCollation(DTCollation collation) { ct.SetCollation(collation); }
+  DTCollation GetCollation() { return ct.GetCollation(); }
 
-	/*! \brief Get simple type of the column
-	 *
-	 */
-	inline const AttributeType TypeName() const { return ct.GetTypeName(); }
-
-	void SetCollation(DTCollation collation) { ct.SetCollation(collation); }
-	DTCollation GetCollation() { return ct.GetCollation(); }
-protected:
-	ColumnType ct;
+ protected:
+  ColumnType ct;
 };
 #endif

@@ -24,65 +24,63 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 
 #include "../system/MemoryManagement/TrackableObject.h"
 
-class FTree
-	: public TrackableObject
+class FTree : public TrackableObject
 {
-public:
+ public:
+  FTree();
+  FTree(const FTree &ft);
+  ~FTree();
+  std::auto_ptr<FTree> Clone() const;
 
-	FTree();
-	FTree(const FTree &ft);		
-	~FTree();
-	std::auto_ptr<FTree> Clone() const;
+  void Init(int width);
 
-	void Init(int width);
+  RCBString GetRealValue(int v);
+  char *GetBuffer(int v);  // the pointer to the memory place of the real value
 
-	RCBString GetRealValue(int v);
-	char *GetBuffer(int v);			// the pointer to the memory place of the real value
+  int GetEncodedValue(const RCBString &);  // return -1 when value not found
 
-	int GetEncodedValue(const RCBString&);	// return -1 when value not found
+  int Add(const RCBString &);  // return -1 when len=0
 
-	int Add(const RCBString&);				// return -1 when len=0
+  int CountOfUniqueValues();
 
-	int CountOfUniqueValues();
+  int ByteSize();  // number of bytes required to compress the dictionary
+  void SaveData(unsigned char *&buf);
+  void Init(unsigned char *&buf);
 
-	int ByteSize();							// number of bytes required to compress the dictionary
-	void SaveData(unsigned char *&buf);
-	void Init(unsigned char *&buf);
+  int ValueSize() { return value_size; }
+  int ValueSize(int i) { return len[i]; }
+  int MaxValueSize() { return MaxValueSize(0, dic_size - 1); }
+  int MaxValueSize(int start, int end);  // max. value size for an interval of codes
 
-	int ValueSize()			{ return value_size; }
-	int ValueSize(int i)	{ return len[i]; }
-	int MaxValueSize()		{ return MaxValueSize(0, dic_size - 1); }
-	int MaxValueSize(int start, int end);				// max. value size for an interval of codes
+  TRACKABLEOBJECT_TYPE TrackableType() const { return TO_FTREE; }
+  void Release();
+  int CheckConsistency();  // 0 = dictionary consistent, otherwise corrupted
+ private:
+  char *mem;  // dictionary: dic_size*value_size bytes. Values are NOT terminated by anything and may contain any
+              // character (incl. 0)
+  unsigned short *len;  // table of lengths of values
 
-	TRACKABLEOBJECT_TYPE TrackableType() const {return TO_FTREE;}
-	void Release();
-	int CheckConsistency();			// 0 = dictionary consistent, otherwise corrupted
-private:
-	char *mem;			// dictionary: dic_size*value_size bytes. Values are NOT terminated by anything and may contain any character (incl. 0)
-	unsigned short *len;// table of lengths of values
+  void InitHash();
+  int HashFind(char *v, int v_len, int position_if_not_found = -1);  // return a position or -1 if not found;
 
-	void InitHash();
-	int HashFind(char* v, int v_len, int position_if_not_found = -1);	// return a position or -1 if not found;
+  int *value_offset;  // mem + value_offset[v] is an address of value v
 
-	int *value_offset;	// mem + value_offset[v] is an address of value v
+  int dic_size;        // number of different values
+  int total_dic_size;  // may be more than dic_size, because we reserve some place for new values
+  int total_buf_size;  // in bytes, the current size of value buffer
+  int last_code;       // last code used
+  int value_size;      // max. length of one string (limit)
+  int max_value_size;  // max. length of a string found in dictionary
 
-	int dic_size;		// number of different values
-	int total_dic_size;	// may be more than dic_size, because we reserve some place for new values
-	int total_buf_size;	// in bytes, the current size of value buffer
-	int last_code;		// last code used
-	int value_size;		// max. length of one string (limit)
-	int max_value_size;	// max. length of a string found in dictionary
+  // Compression section - not used yet
+  int changed, compressed_size, comp_mode;
 
-	// Compression section - not used yet
-	int changed,compressed_size,comp_mode;
+  // Hash section
 
-	// Hash section
+  int *hash_table;
+  int hash_size;
 
-	int*	hash_table;
-	int		hash_size;
-
-	void Destroy();
+  void Destroy();
 };
 
 #endif
-

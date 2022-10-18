@@ -50,8 +50,8 @@ RoughMultiIndex::RoughMultiIndex(const RoughMultiIndex &rmind)
     no_packs[d] = rmind.no_packs[d];
     no_empty_packs[d] = rmind.no_empty_packs[d];
     for (int i = 0; i < rmind.local_desc[d].size(); i++) local_desc[d].push_back(new RFDesc(*rmind.local_desc[d][i]));
-    // local_desc[d] = rmind.local_desc[d];			// copying of the vectors - copying constructor of RFDesc in
-    // use?
+    // local_desc[d] = rmind.local_desc[d];			// copying of the vectors - copying constructor of
+    // RFDesc in use?
     if (no_packs[d] > 0)
       rf[d] = new RSValue[no_packs[d]];
     else

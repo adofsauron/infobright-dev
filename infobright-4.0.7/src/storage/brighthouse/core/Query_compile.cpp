@@ -450,9 +450,11 @@ int Query::AddFields(List<Item> &fields, TabID const &tmp_table, bool const grou
       item = UnRef(item);
       continue;
     }
-    //			if ((UnRef(item)->type() == Item_bhfield::BHFIELD_ITEM || UnRef(item)->type() == Item_bhfield::FIELD_ITEM )
-    //&& IsLocalColumn(UnRef(item), tmp_table) ) 				AddColumnForPhysColumn(UnRef(item), tmp_table, oper, distinct, false,
-    //false); 			else {
+    //			if ((UnRef(item)->type() == Item_bhfield::BHFIELD_ITEM || UnRef(item)->type() ==
+    //Item_bhfield::FIELD_ITEM
+    //)
+    //&& IsLocalColumn(UnRef(item), tmp_table) ) 				AddColumnForPhysColumn(UnRef(item), tmp_table, oper,
+    //distinct, false, false); 			else {
     //				//
     //			}
     else if (IsAggregationItem(item) && (((Item_sum *)item)->args[0])->type() == Item::REF_ITEM &&

@@ -1344,8 +1344,8 @@ BHTribool Descriptor::RoughCheckSubselectCondition(MIIterator &mit, SubSelectOpt
     //// need to consider three value logic
     // BHTribool val1_res = val1.vc->IsNull(mit) ? BHTRIBOOL_UNKNOWN : BHTribool(rcvo1 >= val1.vc->GetValue(mit,
     // false)); BHTribool val2_res = val2.vc->IsNull(mit) ? BHTRIBOOL_UNKNOWN : BHTribool(rcvo1 <=
-    // val2.vc->GetValue(mit, false)); if(op == O_BETWEEN) { 	if(val1_res != true || val2_res != true) 		return false; }
-    // else { 	if(val1_res != false && val2_res != false) 		return false;
+    // val2.vc->GetValue(mit, false)); if(op == O_BETWEEN) { 	if(val1_res != true || val2_res != true) 		return
+    // false; } else { 	if(val1_res != false && val2_res != false) 		return false;
     // }
     return BHTRIBOOL_UNKNOWN;
   }

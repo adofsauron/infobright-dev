@@ -173,16 +173,16 @@ class RSI_Manager  // implements its own memory management based on requests of 
   int UpdateIndex(RSIndex *ptr, int write_loc, bool do_not_save = false);
   // after GetIndexForUpdate, save (or not) updates and unlock, do NOT commit; return 0 when success
 
-  // void CollapseIndex( RSIndex* ptr );		// delete index object from memory; invoked by MemoryManager (assert:
-  // index exists and is not being used)
+  // void CollapseIndex( RSIndex* ptr );		// delete index object from memory; invoked by MemoryManager
+  // (assert: index exists and is not being used)
 
   void DeleteIndex(int tab, int col);      // delete all indexes concerning the given column or table (when col<0)
   std::vector<RSIndexID> GetAll(int tab);  // get a list of all existing RSIndices concerning the given table
   std::vector<RSIndexID> GetAll2(
       RCTable &tab);  // get a list of all existing RSIndices concerning the given table without scanning kn folder
 
-  // void UpdateDef( bool reload = true );	// read current RSI DEF file; 'reload' - mark all indexes as invalid (not
-  // up to date), to be deleted
+  // void UpdateDef( bool reload = true );	// read current RSI DEF file; 'reload' - mark all indexes as invalid
+  // (not up to date), to be deleted
 
   void UpdateDefForTable(int table_id);
 
@@ -252,8 +252,9 @@ class RSIndexPool
   // int Rollback(int pos, RSIndex* rsi);		// returns lock descriptor; deletes 'rsi'
   // int FindWrite(RSIndex* rsi, RSIndexID* id = NULL);
 
-  // int CollapseIndex(RSIndex* rsi);			// find 'rsi' in pool and delete it from memory; return: 0 - success, 1 -
-  // 'rsi' is locked, 2 - another error
+  // int CollapseIndex(RSIndex* rsi);			// find 'rsi' in pool and delete it from memory; return: 0 - success,
+  // 1
+  // - 'rsi' is locked, 2 - another error
 
   void Cleaning(int pos = -1);  // remove old RSI objects and old IDs
   void LoadFailed(int pos);     // nfail++
@@ -269,10 +270,10 @@ class RSIndexPool
     std::vector<RSIndex *> read;  // Array of RSIndex objects being used for reading (it's not enough to hold only 1
                                   // !!!) The newest object is always in read[0]. If read[0]==NULL then the newest
                                   // object had to be deleted and must be loaded for next reading request.
-    RSIndex *write;   // The RSIndex being updated now (can be at most 1) or NULL
-    int write_lock;   // Descriptor of .lock file associated with the file being updated
-    int nreq, nfail;  // Total no. of requests for reading (nreq) and how many of them failed (nfail)
-                      // due to problems with loading
+    RSIndex *write;               // The RSIndex being updated now (can be at most 1) or NULL
+    int write_lock;               // Descriptor of .lock file associated with the file being updated
+    int nreq, nfail;              // Total no. of requests for reading (nreq) and how many of them failed (nfail)
+                                  // due to problems with loading
     bool isnew;       // ID not in DEF file, should be added asap (now or after construction, depending on 'write')
     bool isold;       // ID not in DEF file, should be removed from memory asap
     bool delfromdef;  // ID is in DEF file, but should be deleted from DEF (implies isold==true)

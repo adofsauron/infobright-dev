@@ -98,7 +98,8 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 //
 //	DPN description block format:
 //	<pack_file>			4		- file number for actual data (i.e. an identifier of large data
-//file) 								  Special values for no storage needed: PF_NULLS_ONLY - only nulls, PF_NO_OBJ - no objects (empty pack)
+// file) 								  Special values for no storage needed: PF_NULLS_ONLY - only
+// nulls, PF_NO_OBJ - no objects (empty pack)
 //	<pack_addrs>		4		- file offset for actual data in the large data file
 //	<local_min>			8		- min of data pack values:
 //								  for int/decimal/datetime - as int_64,
@@ -106,13 +107,15 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 //								  for string - as the first 8 bytes of minimal string
 //	<local_max>			8		- max, as above
 //	<local_sum/size>	8		- sum of values of data pack (NULL_VALUE_64 means "not known or
-//overflow") 								  as int64 for fixed precision columns, as double for floating point. 								  In case of strings, this value stores
-//the longest string size of data pack. 	<loc_no_obj>		2		- number of objects-1 (i.e. 0 means 1
-//object etc.), 0 objects are stored as pak_file = PF_NO_OBJ 	<loc_no_nulls>		2		- number of
-//nulls, 								  0 means either no nulls, or all nulls (but in this case pak_file = PF_NULLS_ONLY)
-//	<special_flags>		1		- default 0, but the following bits may be set:
-//								  SEQUENTIAL_VALUES - the pack is derivable as x_n = (local_min + n),
-//no data needed
+// overflow") 								  as int64 for fixed precision columns, as double for
+// floating point. 								  In case of strings, this value stores
+// the
+// longest string size of data pack. 	<loc_no_obj>		2		- number of objects-1 (i.e. 0 means 1
+// object etc.), 0 objects are stored as pak_file = PF_NO_OBJ 	<loc_no_nulls>		2		- number of
+// nulls, 								  0 means either no nulls, or all nulls (but in this case pak_file
+// = PF_NULLS_ONLY) 	<special_flags>		1		- default 0, but the following bits may be set:
+//								  SEQUENTIAL_VALUES - the pack is derivable as x_n = (local_min
+//+ n), no data needed
 
 namespace bh
 {
@@ -175,8 +178,10 @@ class TransactionBase;
 // 1 - int encoded:
 //		RC_INT,RC_NUM   - int64 value, NULL_VALUE_64 for null, may be also treated as int (NULL_VALUE)
 //						  decimals: the value is shifted by precision, e.g. "583880"=583.88 for
-//DEC(10,3) 		RC_TIME, RC_DATE, RC_YEAR - bitwise 64-bit encoding as DATETIME 		RC_STRING, RC_VARCHAR: 				lookup	- value
-//from the dictionary as int64, NULL_VALUE_64 for null 			non-lookup	- text value as RCBString
+// DEC(10,3) 		RC_TIME, RC_DATE, RC_YEAR - bitwise 64-bit encoding as DATETIME 		RC_STRING,
+// RC_VARCHAR:
+// lookup	- value from the dictionary as int64, NULL_VALUE_64 for null 			non-lookup	- text
+// value as RCBString
 // 2 - locally encoded (to be read from packs):
 //		string, non-lookup - as level 1;
 //		other			- uint64, relatively to min value in pack, nulls encoded in a separate bit mask.
@@ -361,9 +366,10 @@ class RCAttr : public TrackableObject, public PhysicalColumn
   uint AttrNo() { return attr_number; }
   enum phys_col_t ColType() { return RCATTR; }
 
-  //	int OrigSize()		 const 			{ return field_size;	}	// as defined in DEC(X,*) or CHAR(X)
-  //or... 	void SetOrigSize(unsigned short int a_field_size) { field_size = a_field_size; }	// as defined in
-  //DEC(X,*) or CHAR(X) or...
+  //	int OrigSize()		 const 			{ return field_size;	}	// as defined in DEC(X,*) or
+  // CHAR(X)
+  // or... 	void SetOrigSize(unsigned short int a_field_size) { field_size = a_field_size; }	// as defined in
+  // DEC(X,*) or CHAR(X) or...
   //	int Precision()		 const			{ return dec_places;	}	// as defined in DEC(*,Y)
   //	void SetPrecision(int a_dplace)     { dec_places = a_dplace;}
   // Total width (excl. terminating null), including the sign, decimal point etc.
@@ -530,8 +536,8 @@ class RCAttr : public TrackableObject, public PhysicalColumn
   void ReleaseRSI(RSIndex *rsi);  // Release an one-dimensional index for this attribute
   RSIndex_Hist *LoadRSI_Hist();
   RSIndex_CMap *LoadRSI_CMap();
-  //	bool VerifyRSI(); 					// Repairs index directory: false if the repair was needed and
-  //done.
+  //	bool VerifyRSI(); 					// Repairs index directory: false if the repair was
+  //needed and done.
 
   uint packs_omitted;
 
@@ -557,8 +563,8 @@ class RCAttr : public TrackableObject, public PhysicalColumn
   // Global column info
   int attr_number;   // index of the column in table (for file naming purposes etc.)
   int table_number;  // index of the table (for RSI etc.)
-  // char path[MAX_PATH];				// current path (terminated by '/'), determining the directory where TAxxxxx.ctb
-  // may be found
+  // char path[MAX_PATH];				// current path (terminated by '/'), determining the directory
+  // where TAxxxxx.ctb may be found
   std::string path;
 
   // Rough set indexes

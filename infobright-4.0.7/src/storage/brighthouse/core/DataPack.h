@@ -21,26 +21,26 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 
 #include "common/CommonDefinitions.h"
 
-
 class RCDataType;
 class DataPackLock;
 
 class DataPack
 {
-public:
-	DataPack() : decomposer_id(0), outliers(0) {};
-	virtual ~DataPack() {};
-public:
-	virtual RCDataType& operator[](ushort id) const = 0;
-	virtual size_t size() = 0;
+ public:
+  DataPack() : decomposer_id(0), outliers(0){};
+  virtual ~DataPack(){};
 
-	void SetDecomposerID(uint decomposer_id) { this->decomposer_id = decomposer_id; }
-	uint GetDecomposerID() const { return decomposer_id; }
+ public:
+  virtual RCDataType &operator[](ushort id) const = 0;
+  virtual size_t size() = 0;
 
-public:
-	boost::shared_ptr<DataPackLock> dp_lock;
-	uint decomposer_id;
-	uint outliers;
+  void SetDecomposerID(uint decomposer_id) { this->decomposer_id = decomposer_id; }
+  uint GetDecomposerID() const { return decomposer_id; }
+
+ public:
+  boost::shared_ptr<DataPackLock> dp_lock;
+  uint decomposer_id;
+  uint outliers;
 };
 
 #endif /*DATAPACK_H_*/

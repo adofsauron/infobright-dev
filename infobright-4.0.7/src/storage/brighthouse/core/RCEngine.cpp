@@ -310,8 +310,8 @@ RCEngine::~RCEngine()
   rsi_manager.reset();
 
   //	for(map<string,map<string, boost::shared_ptr<RCTable> > >::const_iterator db_iter = m_tables.begin();
-  //db_iter!=m_tables.end(); db_iter++) 		for(map<string,RCTable*>::const_iterator tab_iter = db_iter->second.begin();
-  //tab_iter!=db_iter->second.end(); tab_iter++) 			tab_iter->second.reset();
+  // db_iter!=m_tables.end(); db_iter++) 		for(map<string,RCTable*>::const_iterator tab_iter =
+  // db_iter->second.begin(); tab_iter!=db_iter->second.end(); tab_iter++) tab_iter->second.reset();
   /**************************************************
   #ifdef __GNUC__
           pthread_mutex_destroy(&m_sync_tables);
@@ -667,7 +667,7 @@ void RCEngine::DropTable(const char *table)
       tab = RCTablePtr(new RCTable(tab_path.c_str(), vector<DTCollation>(), 0,
                                    RCTableImpl::OpenMode::FOR_DROP));  // Version: cannot drop inconsistent tables
       //			tab = RCTablePtr(new RCTable(tab_path.c_str(), -1, 0, true, true));		//
-      //Version: can drop inconsistent tables
+      // Version: can drop inconsistent tables
     }
     catch (NoTableFolderRCException &)
     {

@@ -27,23 +27,23 @@ class FTree;
 struct DPN;
 class RCAttr_packN;
 
-template<typename T>
+template <typename T>
 class DataPackImpl : public DataPack
 {
-	std::vector<T> vec;
+  std::vector<T> vec;
 
-public:
-	//DataPackImpl(const DPN& dpn);
-	DataPackImpl(const int size);
-	DataPackImpl(const int size, const T val);
-	//DataPackImpl(const RCAttr_packN& attr_pack, const DPN& dpn);
-	//DataPackImpl(const RCAttr_packS& attr_pack, const DPN& attr_pack);
-	//DataPackImpl(const RCAttr_packN& attr_pack, const DPN& attr_pack, const FTree& dict);
-	~DataPackImpl();
-	size_t size() {return vec.size();}
+ public:
+  // DataPackImpl(const DPN& dpn);
+  DataPackImpl(const int size);
+  DataPackImpl(const int size, const T val);
+  // DataPackImpl(const RCAttr_packN& attr_pack, const DPN& dpn);
+  // DataPackImpl(const RCAttr_packS& attr_pack, const DPN& attr_pack);
+  // DataPackImpl(const RCAttr_packN& attr_pack, const DPN& attr_pack, const FTree& dict);
+  ~DataPackImpl();
+  size_t size() { return vec.size(); }
 
-public:
-	virtual RCDataType& operator[](ushort id) const;
+ public:
+  virtual RCDataType &operator[](ushort id) const;
 };
 
 #endif /*DATAPACKIMPL_H_*/

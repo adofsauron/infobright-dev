@@ -149,8 +149,8 @@ void RSIndex_Hist::Load(IBFile *frs_index, int current_read_loc)
 {
   // Old file format:
   // Header:	<no_obj><no_pack><int_res><fixed>		- 8+4+1+1 = 14 bytes
-  //			<table_t>								- no_pack*int_res*sizeof(int)
-  //bytes
+  //			<table_t>								-
+  // no_pack*int_res*sizeof(int) bytes
   // File format:
   // Header0:	<version><no_obj><no_pack><int_res><fixed>	- 1+8+4+1+1 = 15 bytes
   // Header1:	<version><no_obj><no_pack><int_res><fixed>	- 1+8+4+1+1 = 15 bytes
@@ -213,8 +213,8 @@ void RSIndex_Hist::LoadLastOnly(IBFile *frs_index, int current_read_loc)
 
   // Old file format:
   // Header:	<no_obj><no_pack><int_res><fixed>		- 8+4+1+1 = 14 bytes
-  //			<table_t>								- no_pack*int_res*sizeof(int)
-  //bytes
+  //			<table_t>								-
+  // no_pack*int_res*sizeof(int) bytes
   // File format:
   // Header0:	<version><no_obj><no_pack><int_res><fixed>	- 1+8+4+1+1 = 15 bytes
   // Header1:	<version><no_obj><no_pack><int_res><fixed>	- 1+8+4+1+1 = 15 bytes

@@ -204,8 +204,8 @@ int Query::Item2CQTerm(Item *an_arg, CQTerm &term, const TabID &tmp_table, CondT
       }
       else
       {
-        //				int col_num = AddColumnForMysqlExpression(expr, tmp_table, NULL, DELAYED, distinct,
-        //true);
+        //				int col_num = AddColumnForMysqlExpression(expr, tmp_table, NULL, DELAYED,
+        // distinct, true);
         vc.n = VirtualColumnAlreadyExists(tmp_table, expr);
         if (vc.n == NULL_VALUE_32)
         {
@@ -1062,7 +1062,7 @@ int Query::PrefixCheck(COND *conds)
         case Item_func::COND_OR_FUNC:
         {
           //			List_iterator_fast<Item_equal>
-          //list_equal(((Item_cond_and*)cond_cond)->cond_equal.current_level);
+          // list_equal(((Item_cond_and*)cond_cond)->cond_equal.current_level);
           List_iterator_fast<Item> li(*(cond_cond->argument_list()));
           Item *item;
           while ((item = li++) /*|| (item = list_equal++)*/)

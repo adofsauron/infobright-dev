@@ -68,8 +68,8 @@ RCTableImpl::RCTableImpl(string const &a_path, vector<DTCollation> charsets, cha
 //	<format_id>			1		- "0", "1" - obsolete formats, "2" - current
 //	<security>			4		- reserved for security info
 //	<no_all_obj>		8		- reserved for total no. of objects (including deleted); currently not
-//used 	<no_cur_obj>		8		- reserved for current (excluding deleted) no. of objects; currently not
-//used 	<no_attr>			4		- number of attributes
+// used 	<no_cur_obj>		8		- reserved for current (excluding deleted) no. of objects;
+// currently not used 	<no_attr>			4		- number of attributes
 //	<block_offset>		4		- offset of the first special block (0 means no such block)
 //
 //	<attr_mode>			no_attr	- one-byte attribute parameter; 0 for deleted attribute, !=0 otherwise
@@ -82,8 +82,10 @@ RCTableImpl::RCTableImpl(string const &a_path, vector<DTCollation> charsets, cha
 //	<block_n>			...
 //
 //	general sctructure of a block:		<blk_len>	4	- including 6 bytes of header
-//										<blk_type>	1	- reserved (0 is assumed as
-//interpretable now) 										<is_next>	1	- 0 for the last block, 1 otherwise
+//										<blk_type>	1	- reserved (0 is
+//assumed as
+// interpretable now) 										<is_next>	1	- 0 for the last block,
+// 1 otherwise
 //
 //
 RCTableImpl::RCTableImpl(string const &a_path, vector<DTCollation> cs, int current_state,

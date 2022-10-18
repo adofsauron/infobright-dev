@@ -205,7 +205,7 @@ class AttrPackN : public AttrPack
   bool IsModeCompressionApplied() const { return IsModeDataCompressed() || IsModeNullsCompressed(); }
   bool IsModeNoCompression() const { return optimal_mode & 0x40; }
   //	void SetModeNoCompression() {optimal_mode = 0x40;}		//not used, replaced by CompressCopy inside the
-  //Compressor to keep old format
+  // Compressor to keep old format
   void ResetModeNoCompression() { optimal_mode &= 0xBF; }
   void SetModeDataCompressed()
   {
@@ -341,7 +341,7 @@ class AttrPackS : public AttrPack
   bool IsModeCompressionApplied() const { return IsModeDataCompressed() || IsModeNullsCompressed(); }
   bool IsModeNoCompression() const { return optimal_mode & 0x4; }
   //	void SetModeNoCompression() {optimal_mode = 0x4;} //not used, replaced by CompressCopy inside the Compressor to
-  //keep old format
+  // keep old format
   void SetModeDataCompressed()
   {
     ResetModeNoCompression();

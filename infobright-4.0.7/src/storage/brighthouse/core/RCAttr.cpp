@@ -924,9 +924,9 @@ void RCAttr::LoadPackInfo_physical(Transaction *trans)
     //	if (Type().IsLookup() && GetDictOffset() != 0)
     //	if(process_type != ProcessType::BHLOADER)
     //	dic = ConnectionInfoOnTLS->GetTransaction()->GetObject<FTree>(FTreeCoordinate(table_number, attr_number),
-    //bind(&RCAttr::LoadLookupDictFromFile, this, true)); 	else 	dic =
-    //GlobalDataCache::GetGlobalDataCache().GetObject<FTree>(FTreeCoordinate(table_number, attr_number),
-    //bind(&RCAttr::LoadLookupDictFromFile, this, true));
+    // bind(&RCAttr::LoadLookupDictFromFile, this, true)); 	else 	dic =
+    // GlobalDataCache::GetGlobalDataCache().GetObject<FTree>(FTreeCoordinate(table_number, attr_number),
+    // bind(&RCAttr::LoadLookupDictFromFile, this, true));
     // }
     // catch (DatabaseRCException&)
     //{
@@ -1068,11 +1068,10 @@ void RCAttr::RestoreDPN(char *buf, uint pack_no) { RestoreDPN(buf, dpns[pack_no]
 //		if(v==RS_NONE) SetUnique(false);
 //
 //		//char flags =
-//char(nulls_mode)+(declared_unique?4:0)+(is_primary?8:0)+(is_unique?16:0)+(is_unique_updated?32:0); 		char flags =
-//char(Type().GetNullsMode()) +(IsUnique()?16:0)+(IsUniqueUpdated()?32:0); 		string fname(AttrFileName(0));
-//		fattr.OpenReadWriteWithThreadAffinity(fname);
-//		fattr.Seek(25,SEEK_SET);
-//		fattr.Write(&flags,1);
+// char(nulls_mode)+(declared_unique?4:0)+(is_primary?8:0)+(is_unique?16:0)+(is_unique_updated?32:0); 		char
+// flags = char(Type().GetNullsMode()) +(IsUnique()?16:0)+(IsUniqueUpdated()?32:0); 		string
+// fname(AttrFileName(0)); 		fattr.OpenReadWriteWithThreadAffinity(fname); 		fattr.Seek(25,SEEK_SET);
+// fattr.Write(&flags,1);
 //		fattr.CloseWithThreadAffinity(fname);
 //	}
 // }

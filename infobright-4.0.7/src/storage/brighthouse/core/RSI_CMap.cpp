@@ -411,7 +411,7 @@ void RSIndex_CMap::PutValue(RCBString &v, int pack)  // set information that val
 //	}
 //	if( !any_set )
 //		return true;	// special case: no characters at all in both packs (e.g. CMAP empty because of common
-//prefix) 	return false;		// no intersection possible - all values do not match the second histogram
+// prefix) 	return false;		// no intersection possible - all values do not match the second histogram
 // }
 //
 // void RSIndex_CMap::Display(int pack, unsigned char c)

@@ -24,33 +24,37 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
 
 class Condition
 {
-protected:
-	std::vector<Descriptor> descriptors;
-public:
-	virtual ~Condition() {}
-	virtual void		AddDescriptor(CQTerm e1, Operator op, CQTerm e2, CQTerm e3, TempTable* t, int no_dims, char like_esc);
-	virtual void		AddDescriptor(DescTree* tree, TempTable* t, int no_dims);
-	virtual void		AddDescriptor(const Descriptor& desc);
-	uint					Size() const { return (uint)descriptors.size(); }
-	void				Clear() { descriptors.clear(); }
-	void				EraseFirst() { descriptors.erase(descriptors.begin()); }
-	Descriptor&			operator[](int i) { return descriptors[i]; }
-	const Descriptor&	operator[](int i) const { return descriptors[i]; }
-	virtual bool		IsType_Tree() { return false; }
-	virtual void		Simplify();
-	void MakeSingleColsPrivate(std::vector<VirtualColumn*>&);
+ protected:
+  std::vector<Descriptor> descriptors;
+
+ public:
+  virtual ~Condition() {}
+  virtual void AddDescriptor(CQTerm e1, Operator op, CQTerm e2, CQTerm e3, TempTable *t, int no_dims, char like_esc);
+  virtual void AddDescriptor(DescTree *tree, TempTable *t, int no_dims);
+  virtual void AddDescriptor(const Descriptor &desc);
+  uint Size() const { return (uint)descriptors.size(); }
+  void Clear() { descriptors.clear(); }
+  void EraseFirst() { descriptors.erase(descriptors.begin()); }
+  Descriptor &operator[](int i) { return descriptors[i]; }
+  const Descriptor &operator[](int i) const { return descriptors[i]; }
+  virtual bool IsType_Tree() { return false; }
+  virtual void Simplify();
+  void MakeSingleColsPrivate(std::vector<VirtualColumn *> &);
 };
 
-class SingleTreeCondition : public Condition {
-	DescTree*				tree;
-public:
-	SingleTreeCondition() { tree = NULL; }
-	SingleTreeCondition(CQTerm e1, Operator op, CQTerm e2, CQTerm e3, TempTable* t, int no_dims, char like_esc);
-	virtual ~SingleTreeCondition();
-	virtual void			AddDescriptor(LogicalOperator lop, CQTerm e1, Operator op, CQTerm e2, CQTerm e3, TempTable* t, int no_dims, char like_esc);
-	void					AddTree(LogicalOperator lop, DescTree* tree, int no_dims);
-	DescTree*				GetTree() { return tree; }
-	virtual bool			IsType_Tree() { return true; }
+class SingleTreeCondition : public Condition
+{
+  DescTree *tree;
+
+ public:
+  SingleTreeCondition() { tree = NULL; }
+  SingleTreeCondition(CQTerm e1, Operator op, CQTerm e2, CQTerm e3, TempTable *t, int no_dims, char like_esc);
+  virtual ~SingleTreeCondition();
+  virtual void AddDescriptor(LogicalOperator lop, CQTerm e1, Operator op, CQTerm e2, CQTerm e3, TempTable *t,
+                             int no_dims, char like_esc);
+  void AddTree(LogicalOperator lop, DescTree *tree, int no_dims);
+  DescTree *GetTree() { return tree; }
+  virtual bool IsType_Tree() { return true; }
 };
 
 #endif

@@ -146,8 +146,9 @@ void ParameterizedFilter::SyntacticalDescriptorListPreprocessing(bool for_rough_
 
     BHASSERT_WITH_NO_PERFORMANCE_IMPACT(descriptors[i].lop == O_AND);
     // if(descriptors[i].lop != O_AND && descriptors[i].IsType_Join() && (descriptors[i].op == O_BETWEEN ||
-    // descriptors[i].op == O_NOT_BETWEEN)) 	throw NotImplementedRCException("This kind of join condition with OR is not
-    //implemented.");
+    // descriptors[i].op == O_NOT_BETWEEN)) 	throw NotImplementedRCException("This kind of join condition with OR is
+    // not
+    // implemented.");
 
     // normalization of descriptor of type 1 between a and b
     if (descriptors[i].op == O_BETWEEN)

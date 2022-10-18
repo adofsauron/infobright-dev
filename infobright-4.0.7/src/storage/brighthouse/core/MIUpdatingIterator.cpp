@@ -39,8 +39,8 @@ MIUpdatingIterator::MIUpdatingIterator(MultiIndex *_mind, DimensionVector &dimen
 //{
 //	assert(sec.SingleFilterDim() > -1);			// otherwise HEAVY OBJECT - do not copy
 //	if(track_changes)
-//		mind->GetFilter(one_filter_dim)->StartTrackingChanges(); //tracking is necessary in copies in the current
-//application (parallel scan)
+//		mind->GetFilter(one_filter_dim)->StartTrackingChanges(); //tracking is necessary in copies in the
+// current application (parallel scan)
 // }
 //
 MIUpdatingIterator::~MIUpdatingIterator()

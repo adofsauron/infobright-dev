@@ -34,169 +34,181 @@ Software Foundation,  Inc., 59 Temple Place, Suite 330, Boston, MA
  */
 class Aggregator
 {
-public:
-	Aggregator() : stats_updated(false)									{ }
-	Aggregator(Aggregator &sec) : stats_updated(sec.stats_updated)		{ }
-	virtual ~Aggregator() 												{ }
-	///////////// Obligatory part ///////////////////
+ public:
+  Aggregator() : stats_updated(false) {}
+  Aggregator(Aggregator &sec) : stats_updated(sec.stats_updated) {}
+  virtual ~Aggregator() {}
+  ///////////// Obligatory part ///////////////////
 
-	/*!
-	* \brief Get a new copy of the aggregator of the proper subtype.
-	* Should be externally deleted after usage.
-	*/
-	virtual Aggregator* Copy() = 0;
+  /*!
+   * \brief Get a new copy of the aggregator of the proper subtype.
+   * Should be externally deleted after usage.
+   */
+  virtual Aggregator *Copy() = 0;
 
-	/*!
-	 * \brief Get the number of bytes for one counter.
-	 * Used by a grouping algorithm to calculate sizes/positions of counters
-	 * in a global grouping table.
-	 */
-	virtual int BufferByteSize() = 0;
+  /*!
+   * \brief Get the number of bytes for one counter.
+   * Used by a grouping algorithm to calculate sizes/positions of counters
+   * in a global grouping table.
+   */
+  virtual int BufferByteSize() = 0;
 
-	/*!
-	 * \brief Add the current value to counter pointed by the pointer.
-	 * This version is used only for COUNT(*), when no value is needed
-	 * May be left unimplemented if not applicable for a given aggregator.
-	 */
-	virtual void PutAggregatedValue(unsigned char *buf, _int64 factor)						{ assert(0); }
-	/*!
-	 * \brief Add the current value to counter pointed by the pointer.
-	 * A version for all numerical values.
-	 * May be left unimplemented if not applicable for a given aggregator.
-	 */
-	virtual void PutAggregatedValue(unsigned char *buf, _int64 v, _int64 factor)			{ assert(0); }
-	/*!
-	 * \brief Add the current value to counter pointed by the pointer.
-	 * A version for all text (not lookup) values.
-	 * May be left unimplemented if not applicable for a given aggregator.
-	 */
-	virtual void PutAggregatedValue(unsigned char *buf, const RCBString& v, _int64 factor)	{ assert(0); }
+  /*!
+   * \brief Add the current value to counter pointed by the pointer.
+   * This version is used only for COUNT(*), when no value is needed
+   * May be left unimplemented if not applicable for a given aggregator.
+   */
+  virtual void PutAggregatedValue(unsigned char *buf, _int64 factor) { assert(0); }
+  /*!
+   * \brief Add the current value to counter pointed by the pointer.
+   * A version for all numerical values.
+   * May be left unimplemented if not applicable for a given aggregator.
+   */
+  virtual void PutAggregatedValue(unsigned char *buf, _int64 v, _int64 factor) { assert(0); }
+  /*!
+   * \brief Add the current value to counter pointed by the pointer.
+   * A version for all text (not lookup) values.
+   * May be left unimplemented if not applicable for a given aggregator.
+   */
+  virtual void PutAggregatedValue(unsigned char *buf, const RCBString &v, _int64 factor) { assert(0); }
 
-	/*!
-	* \brief Add the counters value represented in src_buf into buf.
-	* Common encoding is assumed.
-	*/
-	virtual void Merge(unsigned char *buf, unsigned char *src_buf) = 0;
+  /*!
+   * \brief Add the counters value represented in src_buf into buf.
+   * Common encoding is assumed.
+   */
+  virtual void Merge(unsigned char *buf, unsigned char *src_buf) = 0;
 
-	/*!
-	 * \brief Get the current value of counter pointed by the pointer.
-	 * May be left unimplemented if no numerical value is returned.
-	 */
-	virtual _int64 GetValue64(unsigned char *buf)			{ assert(0); return NULL_VALUE_64; }
-	/*!
-	 * \brief Get the current value of counter pointed by the pointer.
-	 * May be left unimplemented if no text value is returned.
-	 */
-	virtual RCBString GetValueT(unsigned char *buf)			{ assert(0); return RCBString(); }
-	/*!
-	 * \brief Get the current value of counter pointed by the pointer.
-	 * May be left unimplemented if no floating point value is returned.
-	 */
-	virtual double GetValueD(unsigned char *buf)			{ assert(0); return NULL_VALUE_D; }
+  /*!
+   * \brief Get the current value of counter pointed by the pointer.
+   * May be left unimplemented if no numerical value is returned.
+   */
+  virtual _int64 GetValue64(unsigned char *buf)
+  {
+    assert(0);
+    return NULL_VALUE_64;
+  }
+  /*!
+   * \brief Get the current value of counter pointed by the pointer.
+   * May be left unimplemented if no text value is returned.
+   */
+  virtual RCBString GetValueT(unsigned char *buf)
+  {
+    assert(0);
+    return RCBString();
+  }
+  /*!
+   * \brief Get the current value of counter pointed by the pointer.
+   * May be left unimplemented if no floating point value is returned.
+   */
+  virtual double GetValueD(unsigned char *buf)
+  {
+    assert(0);
+    return NULL_VALUE_D;
+  }
 
-	/*!
-	 * \brief Reset the contents of the counter.
-	 * This method should set a value which is valid for empty groups, e.g. 0 for COUNT(*).
-	 */
-	virtual void Reset(unsigned char *buf) = 0;
+  /*!
+   * \brief Reset the contents of the counter.
+   * This method should set a value which is valid for empty groups, e.g. 0 for COUNT(*).
+   */
+  virtual void Reset(unsigned char *buf) = 0;
 
-	///////////// Optimization part /////////////////
+  ///////////// Optimization part /////////////////
 
-	/*!  If true, then the aggregation algorithm will not update counters for null value
-	 *   (default valid for nearly all functions, even COUNT(*), where we have no column anyway).
-	 */
-	virtual bool IgnoreNulls()								{ return true; }
+  /*!  If true, then the aggregation algorithm will not update counters for null value
+   *   (default valid for nearly all functions, even COUNT(*), where we have no column anyway).
+   */
+  virtual bool IgnoreNulls() { return true; }
 
-	/*!  If true, then DISTINCT modifier will be ignored
-	 */
-	virtual bool IgnoreDistinct()							{ return false; }
+  /*!  If true, then DISTINCT modifier will be ignored
+   */
+  virtual bool IgnoreDistinct() { return false; }
 
-	/*!  If false, then the aggregation algorithm will ignore factor
-	 */
-	virtual bool FactorNeeded()								{ return true; }
+  /*!  If false, then the aggregation algorithm will ignore factor
+   */
+  virtual bool FactorNeeded() { return true; }
 
-	///////////// Pack aggregation part /////////////////
+  ///////////// Pack aggregation part /////////////////
 
-	/*!  If true, then the aggregation algorithm for a data pack needs no_obj as a parameter.
-	 */
-	virtual bool PackAggregationNeedsSize()					{ return false; }
+  /*!  If true, then the aggregation algorithm for a data pack needs no_obj as a parameter.
+   */
+  virtual bool PackAggregationNeedsSize() { return false; }
 
-	/*!  If true, then the aggregation algorithm for a data pack needs a number of not null objects as a parameter.
-	 */
-	virtual bool PackAggregationNeedsNotNulls()				{ return false; }
+  /*!  If true, then the aggregation algorithm for a data pack needs a number of not null objects as a parameter.
+   */
+  virtual bool PackAggregationNeedsNotNulls() { return false; }
 
-	/*!  If true, then the aggregation algorithm for a data pack needs a pack sum as a parameter.
-	 */
-	virtual bool PackAggregationNeedsSum()					{ return false; }
+  /*!  If true, then the aggregation algorithm for a data pack needs a pack sum as a parameter.
+   */
+  virtual bool PackAggregationNeedsSum() { return false; }
 
-	/*!  If true, then the aggregation algorithm for a data pack needs a pack min as a parameter.
-	 */
-	virtual bool PackAggregationNeedsMin()					{ return false; }
+  /*!  If true, then the aggregation algorithm for a data pack needs a pack min as a parameter.
+   */
+  virtual bool PackAggregationNeedsMin() { return false; }
 
-	/*!  If true, then the aggregation algorithm for a data pack needs a pack max as a parameter.
-	 */
-	virtual bool PackAggregationNeedsMax()					{ return false; }
+  /*!  If true, then the aggregation algorithm for a data pack needs a pack max as a parameter.
+   */
+  virtual bool PackAggregationNeedsMax() { return false; }
 
-	/*!  If true, then the aggregation algorithm for a data pack works also if DISTINCT is used (e.g. MIN/MAX)
-	 */
-	virtual bool PackAggregationDistinctIrrelevant()			{ return false; }
+  /*!  If true, then the aggregation algorithm for a data pack works also if DISTINCT is used (e.g. MIN/MAX)
+   */
+  virtual bool PackAggregationDistinctIrrelevant() { return false; }
 
-	/*!  Set a parameter for the whole packrow aggregation.
-	 */
-	virtual void SetAggregatePackNoObj(_int64 par1)			{ assert(0); }
+  /*!  Set a parameter for the whole packrow aggregation.
+   */
+  virtual void SetAggregatePackNoObj(_int64 par1) { assert(0); }
 
-	/*!  Set a parameter for the whole packrow aggregation.
-	 */
-	virtual void SetAggregatePackNotNulls(_int64 par1)		{ assert(0); }
+  /*!  Set a parameter for the whole packrow aggregation.
+   */
+  virtual void SetAggregatePackNotNulls(_int64 par1) { assert(0); }
 
-	/*!  Set a parameter for the whole packrow aggregation.
-	 */
-	virtual void SetAggregatePackSum(_int64 par1, _int64 factor) { assert(0); }
+  /*!  Set a parameter for the whole packrow aggregation.
+   */
+  virtual void SetAggregatePackSum(_int64 par1, _int64 factor) { assert(0); }
 
-	/*!  Set a parameter for the whole packrow aggregation.
-	 */
-	virtual void SetAggregatePackMin(_int64 par1) { assert(0); }
+  /*!  Set a parameter for the whole packrow aggregation.
+   */
+  virtual void SetAggregatePackMin(_int64 par1) { assert(0); }
 
-	/*!  Set a parameter for the whole packrow aggregation.
-	 */
-	virtual void SetAggregatePackMax(_int64 par1) { assert(0); }
+  /*!  Set a parameter for the whole packrow aggregation.
+   */
+  virtual void SetAggregatePackMax(_int64 par1) { assert(0); }
 
-	/*!  Aggregate the whole packrow basing on parameters set previously.
-	 *  Implementation depends on the actual aggregator.
-	 *  \return True, if the packrow was successfully aggregated.
-	 *  False if we must do it row by row.
-	 */
-	virtual bool AggregatePack(unsigned char *buf)			{ return false; }
+  /*!  Aggregate the whole packrow basing on parameters set previously.
+   *  Implementation depends on the actual aggregator.
+   *  \return True, if the packrow was successfully aggregated.
+   *  False if we must do it row by row.
+   */
+  virtual bool AggregatePack(unsigned char *buf) { return false; }
 
-	///////////// Pack omitting part /////////////////
+  ///////////// Pack omitting part /////////////////
 
-	/*!  Return true if the statistics need to be updated before PackCannotChangeAggregation().
-	 */
-	bool StatisticsNeedsUpdate() const							{ return !stats_updated; }
+  /*!  Return true if the statistics need to be updated before PackCannotChangeAggregation().
+   */
+  bool StatisticsNeedsUpdate() const { return !stats_updated; }
 
-	/*!  Set a flag after successful updating statistics.
-	 */
-	void SetStatisticsUpdated()								{ stats_updated = true; }
+  /*!  Set a flag after successful updating statistics.
+   */
+  void SetStatisticsUpdated() { stats_updated = true; }
 
-	/*!  Reset all statistics stored for the aggregator, prepare for new values.
-	 */
-	virtual void ResetStatistics()							{ stats_updated = false; }
+  /*!  Reset all statistics stored for the aggregator, prepare for new values.
+   */
+  virtual void ResetStatistics() { stats_updated = false; }
 
-	/*!  Add the given row to statistics.
-	 *  \return True, if the statistics are updated and no more rows are needed
-	 *  (e.g. when a limit value was already achieved).
-	 */
-	virtual bool UpdateStatistics(unsigned char *buf)		{ return true; }
+  /*!  Add the given row to statistics.
+   *  \return True, if the statistics are updated and no more rows are needed
+   *  (e.g. when a limit value was already achieved).
+   */
+  virtual bool UpdateStatistics(unsigned char *buf) { return true; }
 
-	/*!  True only if we know that the pack will not change any of the currently existing counter value.
-	 *   We know it basing on properly updated statistics stored in the aggregator
-	 *   as well as on data pack statistics set by above functions.
-	 *   \pre Aggregator statistics should be updated.
-	 */
-	virtual bool PackCannotChangeAggregation()				{ return false; }
+  /*!  True only if we know that the pack will not change any of the currently existing counter value.
+   *   We know it basing on properly updated statistics stored in the aggregator
+   *   as well as on data pack statistics set by above functions.
+   *   \pre Aggregator statistics should be updated.
+   */
+  virtual bool PackCannotChangeAggregation() { return false; }
 
-protected:
-	bool stats_updated;
+ protected:
+  bool stats_updated;
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -212,56 +224,73 @@ protected:
  */
 class AggregatorCount64 : public Aggregator
 {
-public:
-	AggregatorCount64(_int64 max_count) : max_counter(max_count), cur_min_counter(PLUS_INF_64), pack_count(0) { }
-	AggregatorCount64(AggregatorCount64 &sec) : Aggregator(sec), max_counter(sec.max_counter), cur_min_counter(sec.cur_min_counter), pack_count(sec.pack_count) { }
-	virtual Aggregator* Copy()								{ return new AggregatorCount64(*this); }
+ public:
+  AggregatorCount64(_int64 max_count) : max_counter(max_count), cur_min_counter(PLUS_INF_64), pack_count(0) {}
+  AggregatorCount64(AggregatorCount64 &sec)
+      : Aggregator(sec), max_counter(sec.max_counter), cur_min_counter(sec.cur_min_counter), pack_count(sec.pack_count)
+  {
+  }
+  virtual Aggregator *Copy() { return new AggregatorCount64(*this); }
 
-	virtual int BufferByteSize() 										{ return 8; }
-	virtual void PutAggregatedValue(unsigned char *buf, _int64 factor)
-	{
-		stats_updated = false;
-		*((_int64*)buf) += factor;
-	}
-	virtual void Merge(unsigned char *buf, unsigned char *src_buf)
-	{
-		stats_updated = false;
-		*((_int64*)buf) += *((_int64*)src_buf);
-	}
+  virtual int BufferByteSize() { return 8; }
+  virtual void PutAggregatedValue(unsigned char *buf, _int64 factor)
+  {
+    stats_updated = false;
+    *((_int64 *)buf) += factor;
+  }
+  virtual void Merge(unsigned char *buf, unsigned char *src_buf)
+  {
+    stats_updated = false;
+    *((_int64 *)buf) += *((_int64 *)src_buf);
+  }
 
-	virtual _int64 GetValue64(unsigned char *buf)							{ return *((_int64*)buf); }
+  virtual _int64 GetValue64(unsigned char *buf) { return *((_int64 *)buf); }
 
-	// Versions omitting the value:
-	virtual void PutAggregatedValue(unsigned char *buf, _int64 v, _int64 factor)			{ PutAggregatedValue(buf, factor); }
-	virtual void PutAggregatedValue(unsigned char *buf, const RCBString& v, _int64 factor)	{ PutAggregatedValue(buf, factor); }
+  // Versions omitting the value:
+  virtual void PutAggregatedValue(unsigned char *buf, _int64 v, _int64 factor) { PutAggregatedValue(buf, factor); }
+  virtual void PutAggregatedValue(unsigned char *buf, const RCBString &v, _int64 factor)
+  {
+    PutAggregatedValue(buf, factor);
+  }
 
-	virtual void Reset(unsigned char *buf)									{ *((_int64*)buf) = 0; }
+  virtual void Reset(unsigned char *buf) { *((_int64 *)buf) = 0; }
 
-	///////////// Optimization part /////////////////
-	virtual bool PackAggregationNeedsSize()					{ return true; }	// we will need only one of these
-	virtual bool PackAggregationNeedsNotNulls()				{ return true; }
+  ///////////// Optimization part /////////////////
+  virtual bool PackAggregationNeedsSize() { return true; }  // we will need only one of these
+  virtual bool PackAggregationNeedsNotNulls() { return true; }
 
-	virtual void SetAggregatePackNoObj(_int64 par1)			{ pack_count = par1; }	// count(*) will set this one
-	virtual void SetAggregatePackNotNulls(_int64 par1)		{ pack_count = par1; }	// count(a) will set this one (overwriting the above)
+  virtual void SetAggregatePackNoObj(_int64 par1) { pack_count = par1; }  // count(*) will set this one
+  virtual void SetAggregatePackNotNulls(_int64 par1)
+  {
+    pack_count = par1;
+  }  // count(a) will set this one (overwriting the above)
 
-	virtual bool AggregatePack(unsigned char *buf)			{ PutAggregatedValue(buf, pack_count); return true; }
-	virtual void ResetStatistics()							{ cur_min_counter = PLUS_INF_64; stats_updated = false; }
-	virtual bool UpdateStatistics(unsigned char *buf)
-	{
-		if(cur_min_counter > *((_int64*)buf))
-			cur_min_counter = *((_int64*)buf);
-		return (cur_min_counter == 1);						// minimal value, we will not find anything better
-	}
-	virtual bool PackCannotChangeAggregation()
-	{
-		assert(stats_updated);
-		return (cur_min_counter == max_counter);
-	}
+  virtual bool AggregatePack(unsigned char *buf)
+  {
+    PutAggregatedValue(buf, pack_count);
+    return true;
+  }
+  virtual void ResetStatistics()
+  {
+    cur_min_counter = PLUS_INF_64;
+    stats_updated = false;
+  }
+  virtual bool UpdateStatistics(unsigned char *buf)
+  {
+    if (cur_min_counter > *((_int64 *)buf))
+      cur_min_counter = *((_int64 *)buf);
+    return (cur_min_counter == 1);  // minimal value, we will not find anything better
+  }
+  virtual bool PackCannotChangeAggregation()
+  {
+    assert(stats_updated);
+    return (cur_min_counter == max_counter);
+  }
 
-private:
-	_int64 max_counter;				// upper limitation of counter (e.g. by no. of records, or dist. values)
-	_int64 cur_min_counter;
-	_int64 pack_count;
+ private:
+  _int64 max_counter;  // upper limitation of counter (e.g. by no. of records, or dist. values)
+  _int64 cur_min_counter;
+  _int64 pack_count;
 };
 
 /*!
@@ -272,56 +301,73 @@ private:
  */
 class AggregatorCount32 : public Aggregator
 {
-public:
-	AggregatorCount32(int max_count) : max_counter(max_count), cur_min_counter(0x7FFFFFFF), pack_count(0) { }
-	AggregatorCount32(AggregatorCount32 &sec) : Aggregator(sec), max_counter(sec.max_counter), cur_min_counter(sec.cur_min_counter), pack_count(sec.pack_count) { }
-	virtual Aggregator* Copy()								{ return new AggregatorCount32(*this); }
+ public:
+  AggregatorCount32(int max_count) : max_counter(max_count), cur_min_counter(0x7FFFFFFF), pack_count(0) {}
+  AggregatorCount32(AggregatorCount32 &sec)
+      : Aggregator(sec), max_counter(sec.max_counter), cur_min_counter(sec.cur_min_counter), pack_count(sec.pack_count)
+  {
+  }
+  virtual Aggregator *Copy() { return new AggregatorCount32(*this); }
 
-	virtual int BufferByteSize() 										{ return 4; }
-	virtual void PutAggregatedValue(unsigned char *buf, _int64 factor)
-	{
-		stats_updated = false;
-		*((int*)buf) += (int)factor;
-	}
-	virtual void Merge(unsigned char *buf, unsigned char *src_buf)
-	{
-		stats_updated = false;
-		*((int*)buf) += *((int*)src_buf);
-	}
+  virtual int BufferByteSize() { return 4; }
+  virtual void PutAggregatedValue(unsigned char *buf, _int64 factor)
+  {
+    stats_updated = false;
+    *((int *)buf) += (int)factor;
+  }
+  virtual void Merge(unsigned char *buf, unsigned char *src_buf)
+  {
+    stats_updated = false;
+    *((int *)buf) += *((int *)src_buf);
+  }
 
-	virtual _int64 GetValue64(unsigned char *buf)							{ return *((int*)buf); }
+  virtual _int64 GetValue64(unsigned char *buf) { return *((int *)buf); }
 
-	// Versions omitting the value:
-	virtual void PutAggregatedValue(unsigned char *buf, _int64 v, _int64 factor)			{ PutAggregatedValue(buf, factor); }
-	virtual void PutAggregatedValue(unsigned char *buf, const RCBString& v, _int64 factor)	{ PutAggregatedValue(buf, factor); }
+  // Versions omitting the value:
+  virtual void PutAggregatedValue(unsigned char *buf, _int64 v, _int64 factor) { PutAggregatedValue(buf, factor); }
+  virtual void PutAggregatedValue(unsigned char *buf, const RCBString &v, _int64 factor)
+  {
+    PutAggregatedValue(buf, factor);
+  }
 
-	virtual void Reset(unsigned char *buf)									{ *((int*)buf) = 0; }
+  virtual void Reset(unsigned char *buf) { *((int *)buf) = 0; }
 
-	///////////// Optimization part /////////////////
-	virtual bool PackAggregationNeedsSize()					{ return true; }	// we will need only one of these
-	virtual bool PackAggregationNeedsNotNulls()				{ return true; }
+  ///////////// Optimization part /////////////////
+  virtual bool PackAggregationNeedsSize() { return true; }  // we will need only one of these
+  virtual bool PackAggregationNeedsNotNulls() { return true; }
 
-	virtual void SetAggregatePackNoObj(_int64 par1)			{ pack_count = (int)par1; }	// count(*) will set this one
-	virtual void SetAggregatePackNotNulls(_int64 par1)		{ pack_count = (int)par1; }	// count(a) will set this one (overwriting the above)
+  virtual void SetAggregatePackNoObj(_int64 par1) { pack_count = (int)par1; }  // count(*) will set this one
+  virtual void SetAggregatePackNotNulls(_int64 par1)
+  {
+    pack_count = (int)par1;
+  }  // count(a) will set this one (overwriting the above)
 
-	virtual bool AggregatePack(unsigned char *buf)			{ PutAggregatedValue(buf, pack_count); return true; }
-	virtual void ResetStatistics()							{ cur_min_counter = 0x7FFFFFFF; stats_updated = false; }
-	virtual bool UpdateStatistics(unsigned char *buf)
-	{
-		if(cur_min_counter > *((int*)buf))
-			cur_min_counter = *((int*)buf);
-		return (cur_min_counter == 1);						// minimal value, we will not find anything better
-	}
-	virtual bool PackCannotChangeAggregation()
-	{
-		assert(stats_updated);
-		return (cur_min_counter == max_counter);
-	}
+  virtual bool AggregatePack(unsigned char *buf)
+  {
+    PutAggregatedValue(buf, pack_count);
+    return true;
+  }
+  virtual void ResetStatistics()
+  {
+    cur_min_counter = 0x7FFFFFFF;
+    stats_updated = false;
+  }
+  virtual bool UpdateStatistics(unsigned char *buf)
+  {
+    if (cur_min_counter > *((int *)buf))
+      cur_min_counter = *((int *)buf);
+    return (cur_min_counter == 1);  // minimal value, we will not find anything better
+  }
+  virtual bool PackCannotChangeAggregation()
+  {
+    assert(stats_updated);
+    return (cur_min_counter == max_counter);
+  }
 
-private:
-	int max_counter;				// upper limitation of counter (e.g. by no. of records, or dist. values)
-	int cur_min_counter;
-	int pack_count;
+ private:
+  int max_counter;  // upper limitation of counter (e.g. by no. of records, or dist. values)
+  int cur_min_counter;
+  int pack_count;
 };
 
 #endif /*AGGREGATOR_H_*/

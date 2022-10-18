@@ -1380,7 +1380,7 @@ int TempTable::AddColumn(CQTerm e, ColOperation mode, char *alias, bool distinct
             break;
             //					default:
             //						throw NotImplementedRCException("SUM performed on non-numerical
-            //column.");
+            // column.");
         }
       }
       else if (mode == MIN || mode == MAX)

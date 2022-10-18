@@ -25,7 +25,8 @@ class RCAttr;
 class ValueSet;
 class MultiValColumn;
 
-namespace cq2 {
+namespace cq2
+{
 class TempTable;
 }
 
@@ -33,46 +34,45 @@ class Descriptor;
 
 class ConditionEncoder
 {
+ public:
+  ConditionEncoder(bool additional_nulls);
+  virtual ~ConditionEncoder();
 
-public:
-	ConditionEncoder(bool additional_nulls);
-	virtual ~ConditionEncoder();
+  void operator()(Descriptor &desc);
 
-	void operator()(Descriptor& desc);
-private:
+ private:
+  void DoEncode();
+  bool IsTransformationNeeded();
+  void TransformINs();
+  void TransformOtherThanINsOnNotLookup();
+  void TransformLIKEs();
+  void TextTransformation();
 
-    void DoEncode();
-    bool IsTransformationNeeded();
-    void TransformINs();
-    void TransformOtherThanINsOnNotLookup();
-    void TransformLIKEs();
-    void TextTransformation();
+  void EncodeConditionOnStringColumn();
+  void EncodeConditionOnNumerics();
+  void TransformWithRespectToNulls();
+  void DescriptorTransformation();
 
-    void EncodeConditionOnStringColumn();
-    void EncodeConditionOnNumerics();
-    void TransformWithRespectToNulls();
-    void DescriptorTransformation();
+  void PrepareValueSet(MultiValColumn &mvc);
+  void TransformINsOnLookup();
+  void TransformLIKEsPattern();
+  void TransformLIKEsIntoINsOnLookup();
+  void TransformIntoINsOnLookup();
+  void TransformOtherThanINsOnNumerics();
+  void LookupExpressionTransformation();
 
-    void PrepareValueSet(MultiValColumn& mvc);
-    void TransformINsOnLookup();
-    void TransformLIKEsPattern();
-    void TransformLIKEsIntoINsOnLookup();
-    void TransformIntoINsOnLookup();
-    void TransformOtherThanINsOnNumerics();
-	void LookupExpressionTransformation();
+  inline AttributeType AttrTypeName() const { return attr->TypeName(); }
 
-    inline AttributeType AttrTypeName() const { return attr->TypeName(); }
+ public:
+  static void EncodeIfPossible(Descriptor &desc, bool for_rough_query, bool additional_nulls);
 
-public:
-	static void EncodeIfPossible(Descriptor& desc, bool for_rough_query, bool additional_nulls);
-
-private:
-	bool 				additional_nulls;
-	ColumnType			in_type;
-	bool 				sharp;
-	bool				encoding_done;
-	RCAttr*				attr;
-	Descriptor*			desc;
+ private:
+  bool additional_nulls;
+  ColumnType in_type;
+  bool sharp;
+  bool encoding_done;
+  RCAttr *attr;
+  Descriptor *desc;
 };
 
 #endif /* CONDITIONENCODER_H_ */

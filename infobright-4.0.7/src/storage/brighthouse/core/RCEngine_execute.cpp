@@ -362,7 +362,7 @@ int optimize_select(THD *thd, Item ***rref_pointer_array, TABLE_LIST *tables, ui
   optimize_after_bh = TRUE;
   if ((err = join->optimize(1)))  // OK, so here is the difference, there is
                                   // only the first part of the optimization done
-    return err;  // 1
+    return err;                   // 1
   // until HERE this was the copy of thebeginning of mysql_select(...)
   return FALSE;
 #endif

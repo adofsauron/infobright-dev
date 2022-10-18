@@ -354,21 +354,21 @@ class Query
   //
   //	/*! \brief Creates MysqlExpression object that wraps full expression tree of MySQL. All Item_field items are
   //	 * substituted with Item_bhfield items. In case of aggregation it is substituted with its whole subtree by a
-  //single
+  // single
   //	 * Item_bhfield, however, there is an AddColumn step added to compilation with this aggregation and Item_bhfield
-  //refers to the
+  // refers to the
   //	 * column created by this step.
   //	 * \param item - root of MySQL expression tree to be wrapped
   //	 * \param tmp_table - alias of TempTable to which AddColumn is added in case of aggregation
   //	 * \param expr - expression to store the result tree
   //	 * \param is_const_or_aggr - optional pointer to bool variable that is set to true if expression has no
-  //variables or
+  // variables or
   //	 * it contains at least one aggregation (false otherwise)
   //	 * \return WrapStatus::SUCCESS on success, WrapStatus::FAILURE if there was any problem with wrapping,
   //	 *  e.g., not acceptable type of expression
   //	 */
   //	WrapStatus::wrap_status_t WrapMysqlExpressionWithAggregations(Item *item, const TabID& tmp_table,
-  //MysqlExpression*& expr, bool* is_const_or_aggr = NULL);
+  // MysqlExpression*& expr, bool* is_const_or_aggr = NULL);
 
   /*! \brief Generates AddColumn compilation steps for every field on SELECT list
    * \param fields - list of fields
